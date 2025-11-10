@@ -1,0 +1,42 @@
+---
+# cPanel Git Deployment Configuration
+# Docs: https://docs.cpanel.net/knowledge-base/general-systems-operations/guide-to-git-deployment/
+# Place this file at the root of the repository.
+
+deployment:
+  tasks:
+    # 1) Timestamp for logs/backup naming
+    - export DEPLOY_TS=$(date +%Y%m%d-%H%M%S)
+
+    # 2) Define paths
+    - export REPO_ROOT="$CPANEL_GIT_DEPLOY_DIR"
+    - export TARGET_ROOT="/home2/ksapccmonitoring/public_html/kpi-ui"
+    - export BACKUP_ROOT="/home2/ksapccmonitoring/public_html/kpi-ui_backup_${DEPLOY_TS}"
+
+    # 3) Backup current live folder if exists (directory or symlink)
+    - if [ -d "$TARGET_ROOT" ] || [ -L "$TARGET_ROOT" ]; then cp -a "$TARGET_ROOT" "$BACKUP_ROOT"; fi
+
+    # 4) Ensure target directory exists (remove symlink if present)
+    - if [ -L "$TARGET_ROOT" ]; then rm "$TARGET_ROOT"; fi
+    - mkdir -p "$TARGET_ROOT"
+
+    # 5) Sync repo files to target (delete removed files). Adjust source if your site is inside a subfolder.
+    # If your site lived under a subfolder like ksapcc-ui/, change "$REPO_ROOT/" to "$REPO_ROOT/ksapcc-ui/"
+    - rsync -av --delete \
+      --exclude=".git" \
+      --exclude=".cpanel.yml" \
+      --exclude="deploy_sync.sh" \
+      "$REPO_ROOT/" "$TARGET_ROOT/"
+
+    # 6) Set safe permissions (644 files, 755 directories)
+    - find "$TARGET_ROOT" -type d -exec chmod 755 {} \;
+    - find "$TARGET_ROOT" -type f -exec chmod 644 {} \;
+
+    # 7) Optional: If you track the root .htaccess in the repo, copy it alongside public_html
+    # - cp "$REPO_ROOT/.htaccess" "/home2/ksapccmonitoring/public_html/.htaccess"
+
+    # 8) Write a deploy marker
+    - echo "Deployed at $DEPLOY_TS from commit $CPANEL_GIT_COMMIT" > "$TARGET_ROOT/deploy_info.txt"
+
+    # 9) Summary
+    - echo "Deployment complete: $DEPLOY_TS -> $TARGET_ROOT"
