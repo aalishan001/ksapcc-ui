@@ -78,6 +78,8 @@ const gridOptions = {
       headerName: "STRATEGIES",
       minWidth: 240,
       tooltipField: "strategies",
+      // Disable column filter specifically for the Strategies column
+      filter: false,
       cellRenderer: (params) => {
         const strategies = escapeHtml(
           params.data?.strategies || "No strategies yet"
