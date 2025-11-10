@@ -1030,16 +1030,31 @@ function parseFlexibleTimestamp(ts) {
   // If already a Date
   if (ts instanceof Date) return ts;
   const raw = String(ts).trim();
-  // Try native parse
-  let d = new Date(raw);
-  if (!Number.isNaN(d.getTime())) return d;
-  // Replace space with T
-  d = new Date(raw.replace(" ", "T"));
-  if (!Number.isNaN(d.getTime())) return d;
-  // Append Z for UTC interpretation
-  d = new Date(raw.replace(" ", "T") + "Z");
-  if (!Number.isNaN(d.getTime())) return d;
-  return null;
+  const now = Date.now();
+
+  const candidates = [];
+  // 1) Native parse
+  candidates.push(new Date(raw));
+  // 2) Replace space with T (treat as local time)
+  candidates.push(new Date(raw.replace(" ", "T")));
+  // 3) Treat as UTC explicitly
+  candidates.push(new Date(raw.replace(" ", "T") + "Z"));
+
+  // Filter valid
+  const valid = candidates.filter((d) => !Number.isNaN(d.getTime()));
+  if (valid.length === 0) return null;
+
+  // Choose the parse closest to "now" to avoid timezone ambiguity
+  let best = valid[0];
+  let bestDelta = Math.abs(best.getTime() - now);
+  for (let i = 1; i < valid.length; i++) {
+    const delta = Math.abs(valid[i].getTime() - now);
+    if (delta < bestDelta) {
+      best = valid[i];
+      bestDelta = delta;
+    }
+  }
+  return best;
 }
 
 function handleSaveClick(event) {
