@@ -997,12 +997,12 @@ function collectModalChanges() {
 
 function isWithinSevenDays(dateString) {
   if (!dateString) return false;
-  const date = parseFlexibleTimestamp(dateString);
-  if (!date) return false;
-  const now = new Date();
-  const msDiff = now.getTime() - date.getTime();
+  const start = parseFlexibleTimestamp(dateString);
+  if (!start) return false;
   const sevenDaysMs = 7 * 24 * 60 * 60 * 1000;
-  return msDiff >= 0 && msDiff < sevenDaysMs;
+  const end = start.getTime() + sevenDaysMs;
+  // Consider within window if current time hasn't passed end, regardless of small clock skew
+  return Date.now() <= end;
 }
 
 function msUntilWindowEnds(dateString) {
@@ -1161,6 +1161,10 @@ async function handleConfirmUpdate() {
       if (noteInput) {
         fd.append("remarks", sanitizeText(noteInput.value));
       }
+      console.info("[Reupdate] Calling reupdate endpoint", {
+        selectedYearKey,
+        selectedValue,
+      });
       const response = await fetch(
         `https://ksapccmonitoring.in/kpi_app/reupdate_dep_kpi_year`,
         {
