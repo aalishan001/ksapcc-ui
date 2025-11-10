@@ -706,7 +706,22 @@ function populateUpdateModal(context) {
   }
 
   renderYearRows(context);
+  injectWindowHint();
   clearModalFeedback();
+}
+
+function injectWindowHint() {
+  const hintContainerId = "editWindowHint";
+  let hintEl = document.getElementById(hintContainerId);
+  const modalBody = document.querySelector("#exampleModal .modal-body");
+  if (!modalBody) return;
+  if (!hintEl) {
+    hintEl = document.createElement("div");
+    hintEl.id = hintContainerId;
+    hintEl.className = "alert alert-secondary py-2 px-3 small";
+    modalBody.prepend(hintEl);
+  }
+  hintEl.innerHTML = `Editable for <strong>7 days</strong> after the first submission of a year's attainment.<br/>Within that window click <em>Change</em> to adjust the value; after it closes the value becomes locked.`;
 }
 
 function renderYearRows(context) {
@@ -748,11 +763,75 @@ function renderYearRows(context) {
     const isEditable = !hasSubmission && firstPendingIndex === index;
 
     if (hasSubmission) {
+      // Show current value
       const valueEl = document.createElement("span");
       valueEl.className = "kpi-year-value";
-      valueEl.id = `modalAchieved-${cfg.key}`;
+      valueEl.id = `modalAchievedDisplay-${cfg.key}`;
       valueEl.textContent = formatNumericValue(row[cfg.key]);
       achievementCell.appendChild(valueEl);
+
+      // Prepare a hidden input for re-update path (enabled via "Change" within 7 days)
+      const inputEl = document.createElement("input");
+      inputEl.type = "number";
+      inputEl.step = "any";
+      inputEl.id = `modalAchieved-${cfg.key}`;
+      inputEl.className = "form-control";
+      inputEl.placeholder = "Enter cumulative attainment";
+      inputEl.value = sanitizeText(row[cfg.key]);
+      inputEl.style.display = "none";
+      inputEl.disabled = true;
+      achievementCell.appendChild(inputEl);
+
+      // Show a Change button only if within 7-day window from first update
+      const updatedAtKey = `${cfg.key}_updated_at`;
+      const firstUpdatedAtRaw = row[updatedAtKey];
+      const canReupdate = isWithinSevenDays(firstUpdatedAtRaw);
+      if (canReupdate) {
+        const changeBtn = document.createElement("button");
+        changeBtn.type = "button";
+        changeBtn.className = "btn btn-link btn-sm p-0 ms-2";
+        changeBtn.textContent = "Change";
+        changeBtn.title = "Edit this year's value (7-day window)";
+        changeBtn.addEventListener("click", () => {
+          // Disable other inputs and hide their editable states
+          YEAR_CONFIG.forEach((c) => {
+            const otherInput = document.getElementById(
+              `modalAchieved-${c.key}`
+            );
+            const otherDisplay = document.getElementById(
+              `modalAchievedDisplay-${c.key}`
+            );
+            if (otherInput && c.key !== cfg.key) {
+              otherInput.disabled = true;
+              otherInput.style.display = "none";
+            }
+            if (otherDisplay && c.key !== cfg.key) {
+              otherDisplay.style.display = "";
+            }
+          });
+
+          // Enable this input and swap display
+          valueEl.style.display = "none";
+          inputEl.style.display = "";
+          inputEl.disabled = false;
+          inputEl.focus();
+          changeBtn.disabled = true;
+        });
+        achievementCell.appendChild(changeBtn);
+
+        // Remaining time indicator next to Change
+        const remainingEl = document.createElement("small");
+        remainingEl.className = "edit-window-remaining text-muted ms-2";
+        remainingEl.id = `remaining-${cfg.key}`;
+        achievementCell.appendChild(remainingEl);
+        updateRemainingCountdown(cfg.key, firstUpdatedAtRaw);
+      } else if (firstUpdatedAtRaw) {
+        // Window expired hint (subtle)
+        const expiredEl = document.createElement("small");
+        expiredEl.className = "edit-window-expired text-muted ms-2";
+        expiredEl.textContent = "Edit window closed";
+        achievementCell.appendChild(expiredEl);
+      }
     } else {
       const inputEl = document.createElement("input");
       inputEl.type = "number";
@@ -903,6 +982,49 @@ function collectModalChanges() {
   };
 }
 
+function isWithinSevenDays(dateString) {
+  if (!dateString) return false;
+  const date = new Date(dateString);
+  if (Number.isNaN(date.getTime())) return false;
+  const now = new Date();
+  const msDiff = now - date;
+  const sevenDaysMs = 7 * 24 * 60 * 60 * 1000;
+  return msDiff >= 0 && msDiff < sevenDaysMs;
+}
+
+function msUntilWindowEnds(dateString) {
+  if (!dateString) return 0;
+  const start = new Date(dateString);
+  if (Number.isNaN(start.getTime())) return 0;
+  const end = new Date(start.getTime() + 7 * 24 * 60 * 60 * 1000);
+  return end - new Date();
+}
+
+function humanRemaining(ms) {
+  if (ms <= 0) return "0d 0h";
+  const totalMinutes = Math.floor(ms / 60000);
+  const days = Math.floor(totalMinutes / (60 * 24));
+  const hours = Math.floor((totalMinutes - days * 24 * 60) / 60);
+  return `${days}d ${hours}h`;
+}
+
+function updateRemainingCountdown(yearKey, firstUpdatedAtRaw) {
+  const el = document.getElementById(`remaining-${yearKey}`);
+  if (!el) return;
+  const msLeft = msUntilWindowEnds(firstUpdatedAtRaw);
+  if (msLeft <= 0) {
+    el.textContent = "Edit window closed";
+    el.classList.add("text-decoration-line-through");
+    return;
+  }
+  el.textContent = `${humanRemaining(msLeft)} left to edit`;
+  // Update roughly each hour to keep UI lightweight
+  setTimeout(
+    () => updateRemainingCountdown(yearKey, firstUpdatedAtRaw),
+    60 * 60 * 1000
+  );
+}
+
 function handleSaveClick(event) {
   if (event) {
     event.preventDefault();
@@ -956,15 +1078,63 @@ async function handleConfirmUpdate() {
   }
 
   try {
-    const response = await fetch(
-      `https://ksapccmonitoring.in/kpi_app/update_dep_kpi`,
-      {
-        method: "POST",
-        body: pendingUpdatePayload,
+    let data;
+    // Determine if this is a re-update (editing existing year within 7-day window)
+    let reupdate = false;
+    let selectedYearKey = null;
+    let selectedValue = null;
+    if (pendingUpdatePayload) {
+      // Identify which year is being updated by checking enabled inputs
+      for (const cfg of YEAR_CONFIG) {
+        const input = document.getElementById(`modalAchieved-${cfg.key}`);
+        if (input && !input.disabled && sanitizeText(input.value)) {
+          selectedYearKey = cfg.key;
+          selectedValue = sanitizeText(input.value);
+          break;
+        }
       }
-    );
+      if (selectedYearKey) {
+        const hadSubmission = hasAchievementValue(
+          activeKpiContext.row[selectedYearKey]
+        );
+        const withinWindow = isWithinSevenDays(
+          activeKpiContext.row[`${selectedYearKey}_updated_at`]
+        );
+        reupdate = hadSubmission && withinWindow;
+      }
+    }
 
-    const data = await response.json();
+    if (reupdate && selectedYearKey) {
+      // Use special endpoint that does not change updated_at timestamps
+      const fd = new FormData();
+      fd.append("id", activeKpiContext.row.kpi_id);
+      fd.append("token", tok);
+      fd.append("year", selectedYearKey);
+      fd.append("value", selectedValue);
+      // Attach remarks for this year if present
+      const noteInput = document.getElementById(`modalNote-${selectedYearKey}`);
+      if (noteInput) {
+        fd.append("remarks", sanitizeText(noteInput.value));
+      }
+      const response = await fetch(
+        `https://ksapccmonitoring.in/kpi_app/reupdate_dep_kpi_year`,
+        {
+          method: "POST",
+          body: fd,
+        }
+      );
+      data = await response.json();
+    } else {
+      // Fallback to original endpoint (first submission path)
+      const response = await fetch(
+        `https://ksapccmonitoring.in/kpi_app/update_dep_kpi`,
+        {
+          method: "POST",
+          body: pendingUpdatePayload,
+        }
+      );
+      data = await response.json();
+    }
 
     if (confirmModalInstance) {
       confirmModalInstance.hide();
