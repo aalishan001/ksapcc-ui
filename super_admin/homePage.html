@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard - Super Admin</title>
+    <link rel="icon" href="./assests/img/green_logo.svg" type="image/png">
+    <link rel="stylesheet" href="./assests/Style/homePage.css" />
+    <link rel="stylesheet" href="./assests/Style/adminNav.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Public Sans"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/ag-grid-community/dist/ag-grid-community.min.js"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+      integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <div id="adminNav"></div>
+    <div class="navigation">
+      <div>
+        <svg
+          width="20"
+          height="21"
+          viewBox="0 0 20 21"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M16.875 17.0442V9.19571C16.875 9.10862 16.8568 9.0225 16.8216 8.94286C16.7863 8.86323 16.7349 8.79183 16.6704 8.73325L10.42 3.05082C10.3049 2.94622 10.155 2.88827 9.99955 2.88828C9.84406 2.88828 9.69415 2.94624 9.57911 3.05085L3.32954 8.73325C3.26511 8.79183 3.21364 8.86323 3.17842 8.94286C3.14319 9.02249 3.125 9.10861 3.125 9.19568V17.0442"
+            stroke="#0F6609"
+            style="
+              stroke: #0f6609;
+              stroke: color(display-p3 0.0588 0.4 0.0353);
+              stroke-opacity: 1;
+            "
+            stroke-width="1.25"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M1.25 17.0443H18.75"
+            stroke="#0F6609"
+            style="
+              stroke: #0f6609;
+              stroke: color(display-p3 0.0588 0.4 0.0353);
+              stroke-opacity: 1;
+            "
+            stroke-width="1.25"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M11.8745 17.0436V12.6686C11.8745 12.5028 11.8087 12.3438 11.6915 12.2266C11.5742 12.1094 11.4153 12.0436 11.2495 12.0436H8.74951C8.58375 12.0436 8.42478 12.1094 8.30757 12.2266C8.19036 12.3438 8.12451 12.5028 8.12451 12.6686V17.0436"
+            stroke="#0F6609"
+            style="
+              stroke: #0f6609;
+              stroke: color(display-p3 0.0588 0.4 0.0353);
+              stroke-opacity: 1;
+            "
+            stroke-width="1.25"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+        <p id="active">Dashboard</p>
+      </div>
+      <a href="./departManagement.html">
+        <div>
+          <img src="./assests/img/department_logo.svg" alt="depart" />
+          <p>Departments</p>
+        </div>
+      </a>
+      <a href="./report.html">
+        <div>
+          <img src="./assests/img/report_icon.svg" alt="note" />
+          <p>Reports</p>
+        </div>
+      </a>
+      <a href="./user.html">
+        <div>
+          <img src="./assests/img/Users_icon.svg" alt="user" />
+          <p>Users</p>
+        </div>
+      </a>
+      <a href="./setting.html">
+        <div>
+          <img src="./assests/img/setting_Icon.svg" alt="setting" />
+          <p>Settings</p>
+        </div>
+      </a>
+      <a href="./master.html">
+        <div>
+          <i
+            class="bi bi-person-video2"
+            style="
+              color: rgba(136, 136, 136, 1);
+              font-size: 20px;
+              margin: 0;
+              padding: 0;
+            "
+          ></i>
+          <p>Masters</p>
+        </div>
+      </a>
+      <!-- <a href="./login.html"> -->
+      <div id="logout">
+        <img src="./assests/img/logout.svg" alt="logout" />
+        <p>Logout</p>
+      </div>
+      <!-- </a> -->
+    </div>
+    <div class="body">
+      <div class="helloadmin">
+        <h2>👋 Hello, Super Admin User</h2>
+        <p>Here is all your analytics overview</p>
+      </div>
+      <!-- <div class="backdiv" >
+        <button id="back" class="hidden">Back</button>
+      </div> -->
+
+      <div class="analytics" id="department-performance-cards">
+        <!-- Department performance cards will be injected here by JavaScript -->
+      </div>
+
+      <div id="recent">
+        <div class="recentChart">
+          <div
+            class="recnet-heading"
+            style="
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+            "
+          >
+            <div style="display: flex; align-items: center">
+              <img src="./assests/img/report_icon.svg" alt="" />
+              <h2>RECENT DEPARTMENT UPDATIONS</h2>
+            </div>
+            <button
+              type="button"
+              class="btn btn-outline-primary btn-sm"
+              onclick="clearGridFilter()"
+              style="margin-left: 10px"
+            >
+              Show All
+            </button>
+          </div>
+          <div class="table">
+            <div
+              id="myGrid"
+              class="ag-theme-quartz"
+              style="height: 500px"
+            ></div>
+            <div id="paginationControls">
+              <div class="paginationNumbers" id="paginationNumbers"></div>
+              <div class="paginationNext" id="paginationControler"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="pending">
+        <div class="recentChart">
+          <div class="recnet-heading">
+            <img src="./assests/img/report_icon.svg" alt="" />
+            <h2>PENDING DEPARTMENT UPDATIONS</h2>
+          </div>
+          <div class="table" style="margin-bottom: 10px">
+            <div
+              id="myGrid1"
+              class="ag-theme-quartz"
+              style="height: 500px"
+            ></div>
+            <div id="paginationControls1">
+              <div class="paginationNumbers" id="paginationNumbers1"></div>
+              <div class="paginationNext" id="paginationControler1"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="exampleModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog custom-wide">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">
+              VIEWING - DEPARTMENT KPI SUBMISSION DETAILS
+            </h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+
+          <!-- modal body -->
+          <div class="modal-body" id="modalbody">
+            <div class="upperdiv">
+              <div class="firstupr">
+                <div class="coloumsbox">
+                  <div class="mb-3">
+                    <label for="departmentName" class="form-label"
+                      >Department Name</label
+                    >
+                    <input
+                      type="email"
+                      class="form-control"
+                      id="departmentName"
+                      aria-describedby="emailHelp"
+                      readonly
+                    />
+                  </div>
+                </div>
+
+                <div class="coloumsbox" id="coloumsbox">
+                  <div class="mb-3">
+                    <label for="target5year" class="form-label"
+                      >Target set for 5 years</label
+                    >
+                    <input
+                      type="email"
+                      class="form-control"
+                      id="target5year"
+                      aria-describedby="emailHelp"
+                      readonly
+                    />
+                  </div>
+                  <div class="mb-3">
+                    <label for="lastUpdated" class="form-label"
+                      >Last Updated Target</label
+                    >
+                    <div
+                      id="lastUpdated"
+                      class="form-control"
+                      style="width: 222px"
+                    ></div>
+                  </div>
+                </div>
+              </div>
+              <div class="midupr">
+                <div class="coloumsbox">
+                  <div class="mb-3">
+                    <label for="kpiName" class="form-label">KPI Name</label>
+                    <textarea
+                      type=""
+                      class="form-control"
+                      id="kpiName"
+                      aria-describedby="emailHelp"
+                      readonly
+                    ></textarea>
+                  </div>
+                </div>
+
+                <div class="coloumsbox" id="coloumsbox">
+                  <div class="mb-3">
+                    <label for="kpiUnit" class="form-label">KPI Unit</label>
+                    <input
+                      type="email"
+                      class="form-control"
+                      id="kpiUnit"
+                      aria-describedby="emailHelp"
+                      readonly
+                    />
+                  </div>
+                  <div class="mb-3">
+                    <label for="lastUpdate" class="form-label"
+                      >Last Updated</label
+                    >
+                    <input
+                      type="email"
+                      class="form-control"
+                      id="lastUpdate"
+                      aria-describedby="emailHelp"
+                      readonly
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="botupr">
+                <div class="mb-3">
+                  <label for="co_department" class="form-label"
+                    >Co-ordinating departments</label
+                  >
+                  <textarea
+                    type=""
+                    class="form-control"
+                    id="co_department"
+                    aria-describedby="emailHelp"
+                    readonly
+                  ></textarea>
+                </div>
+                <div class="mb-3">
+                  <label for="strategies" class="form-label">Strategies</label>
+                  <textarea
+                    type=""
+                    class="form-control"
+                    id="strategies"
+                    aria-describedby="emailHelp"
+                    readonly
+                  ></textarea>
+                </div>
+              </div>
+            </div>
+            <div class="lowerdiv">
+              <p>Annual targets ( Every 5 years )</p>
+              <div style="display: flex; gap: 12px">
+                <div class="mb-3">
+                  <label for="y1" class="form-label">FY 2024-2025</label>
+                  <input
+                    type="email"
+                    class="form-control"
+                    id="y1"
+                    aria-describedby="emailHelp"
+                    readonly
+                  />
+                </div>
+                <div class="mb-3">
+                  <label for="y2" class="form-label">FY 2025-2026</label>
+                  <input
+                    type="email"
+                    class="form-control"
+                    id="y2"
+                    aria-describedby="emailHelp"
+                    readonly
+                  />
+                </div>
+                <div class="mb-3">
+                  <label for="y3" class="form-label">FY 2026-2027</label>
+                  <input
+                    type="email"
+                    class="form-control"
+                    id="y3"
+                    aria-describedby="emailHelp"
+                    readonly
+                  />
+                </div>
+                <div class="mb-3">
+                  <label for="y4" class="form-label">FY 2027-2028</label>
+                  <input
+                    type="email"
+                    class="form-control"
+                    id="y4"
+                    aria-describedby="emailHelp"
+                    readonly
+                  />
+                </div>
+                <div class="mb-3">
+                  <label for="y5" class="form-label">FY 2028-2029</label>
+                  <input
+                    type="email"
+                    class="form-control"
+                    id="y5"
+                    aria-describedby="emailHelp"
+                    readonly
+                  />
+                </div>
+              </div>
+              <br />
+              <p>Target achieved ( Every 5 years )</p>
+              <div style="display: flex; gap: 12px">
+                <div class="mb-3">
+                  <label for="t1" class="form-label">FY 2024-2025</label>
+                  <input
+                    type="email"
+                    class="form-control"
+                    id="t1"
+                    aria-describedby="emailHelp"
+                    readonly
+                  />
+                  <div class="mt-1">
+                    <label for="t1remarks" class="form-label form-label-sm"
+                      >Notes</label
+                    >
+                    <textarea
+                      class="form-control form-control-sm"
+                      id="t1remarks"
+                      rows="2"
+                      readonly
+                    ></textarea>
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label for="t2" class="form-label">FY 2025-2026</label>
+                  <input
+                    type="email"
+                    class="form-control"
+                    id="t2"
+                    aria-describedby="emailHelp"
+                    readonly
+                  />
+                  <div class="mt-1">
+                    <label for="t2remarks" class="form-label form-label-sm"
+                      >Notes</label
+                    >
+                    <textarea
+                      class="form-control form-control-sm"
+                      id="t2remarks"
+                      rows="2"
+                      readonly
+                    ></textarea>
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label for="t3" class="form-label">FY 2026-2027</label>
+                  <input
+                    type="email"
+                    class="form-control"
+                    id="t3"
+                    aria-describedby="emailHelp"
+                    readonly
+                  />
+                  <div class="mt-1">
+                    <label for="t3remarks" class="form-label form-label-sm"
+                      >Notes</label
+                    >
+                    <textarea
+                      class="form-control form-control-sm"
+                      id="t3remarks"
+                      rows="2"
+                      readonly
+                    ></textarea>
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label for="t4" class="form-label">FY 2027-2028</label>
+                  <input
+                    type="email"
+                    class="form-control"
+                    id="t4"
+                    aria-describedby="emailHelp"
+                    readonly
+                  />
+                  <div class="mt-1">
+                    <label for="t4remarks" class="form-label form-label-sm"
+                      >Notes</label
+                    >
+                    <textarea
+                      class="form-control form-control-sm"
+                      id="t4remarks"
+                      rows="2"
+                      readonly
+                    ></textarea>
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label for="t5" class="form-label">FY 2028-2029</label>
+                  <input
+                    type="email"
+                    class="form-control"
+                    id="t5"
+                    aria-describedby="emailHelp"
+                    readonly
+                  />
+                  <div class="mt-1">
+                    <label for="t5remarks" class="form-label form-label-sm"
+                      >Notes</label
+                    >
+                    <textarea
+                      class="form-control form-control-sm"
+                      id="t5remarks"
+                      rows="2"
+                      readonly
+                    ></textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="modal fade"
+      id="exampleModal1"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog custom-wide1">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">
+              LAST UPDATED DATE HISTORY OF THE DEPARTMENT
+            </h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+
+          <!-- modal body -->
+          <div class="modal-body" id="modalbody">
+            <div class="timeline" id="timelineDiv"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- <script src="./assests/JS/dashboardShowPending.js"></script> -->
+    <script src="./assests/JS/home.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
+      integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
+      crossorigin="anonymous"
+    ></script>
+    <script src="./assests/JS/adminNav.js"></script>
+    <script src="./assests/JS/navigation.js"></script>
+  </body>
+</html>

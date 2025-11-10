@@ -1,0 +1,409 @@
+body {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: stretch;
+  height: 100%;
+  min-height: 100vh;
+  background-color: #f6f6f6;
+  font-family: "Public Sans", sans-serif;
+}
+
+.left {
+  flex: 1 1 50%;
+  max-width: 50%;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  height: auto;
+  overflow: hidden;
+}
+
+.leftImg {
+  flex: 1 1 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.leftImg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.right {
+  flex: 1 1 50%;
+  max-width: 50%;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #f6f6f6;
+  padding: 40px 48px;
+  box-sizing: border-box;
+}
+
+.rightTop {
+  margin-top: 12px;
+  width: 90%;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* logo */
+
+.logo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 28px;
+  /* border: 1px solid red; */
+}
+
+.logo :first-child {
+  width: 4.17vw;
+}
+
+.logo :last-child {
+  width: 3.13vw;
+}
+
+.rightTopTag {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: public-sans;
+  /* border: solid red 1px; */
+}
+
+.rightTopTag img {
+  width: 2.5vw;
+  height: auto;
+}
+
+.tagText h1 {
+  font-size: 1.35vw;
+  font-weight: bold;
+  color: #5fa777;
+  margin: 0;
+}
+
+.tagText h3 {
+  font-size: 1.46vw;
+  font-weight: normal;
+  color: #5fa777;
+  margin: 0;
+  line-height: 1;
+}
+
+.tagText {
+  display: flex;
+  flex-direction: column;
+}
+
+/* form */
+
+.rightBottom {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 28px;
+  font-family: "Public Sans", sans-serif;
+  /* margin: 2% auto; */
+  /* border: solid 1px black; */
+}
+
+.rightBottom h1 {
+  width: 25vw;
+  font-family: "Public Sans", sans-serif;
+  font-weight: 800;
+  font-size: 40px;
+  color: #0f6609;
+  margin: 0;
+  margin-top: 10px;
+}
+
+.formBox {
+  width: 100%;
+  max-width: 460px;
+  margin: 0 auto;
+  padding: 36px 52px 42px;
+  text-align: center;
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0px 14px 36px rgba(15, 102, 9, 0.12);
+  box-sizing: border-box;
+}
+
+.formBox h3 {
+  text-align: start;
+  font-weight: 600;
+  font-size: 24px;
+  color: #19181c;
+}
+
+.rightBottom h1 {
+  color: #333;
+  margin-bottom: 20px;
+  font-weight: bold;
+  max-width: 390px;
+  text-align: center;
+  font-weight: 800;
+  font-size: 36px;
+  font-family: "Public Sans", sans-serif;
+  color: #0f6609;
+}
+
+.formBox label {
+  font-size: 14px;
+  display: block;
+  text-align: left;
+  margin: 10px 0 5px;
+  color: #191b1c;
+  font-weight: 400;
+}
+
+.form-group input[type="email"],
+.form-group input[type="password"],
+.form-group button {
+  width: 100%;
+  /* max-width: 300px; */
+  padding: 10px 10px;
+  margin-top: 5px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.form-group input[type="email"],
+.password-wrapper input[type="password"] {
+  width: 100%;
+  padding: 10px; /* Ensure uniform padding on all sides */
+  margin-top: 5px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box; /* Makes sure padding does not affect the total width */
+}
+
+.form-group input[type="password"]::placeholder {
+  color: #959fa3;
+  padding: 10px;
+}
+
+.formBox input[type="email"]:focus,
+.formBox input[type="password"]:focus {
+  outline: none;
+  border-color: #5ea776;
+  /* padding: 10px; */
+}
+
+#password {
+  width: 100%;
+  padding: 10px 0;
+  margin-top: 5px;
+  padding-left: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+#password:focus {
+  outline: none;
+  border-color: #5ea776;
+}
+
+.form-group {
+  width: 100%;
+  margin: 10px 0px;
+  /* border: solid 1px black; */
+}
+
+.formBox label {
+  display: block;
+  text-align: left;
+  color: #555;
+  font-weight: bold;
+}
+
+.formBox button {
+  width: 100%;
+  background-color: #5ea776;
+  color: white;
+  border-radius: 50px;
+  padding: 10px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.5s;
+  box-sizing: border-box;
+  margin-top: 8px;
+}
+
+.formBox button:hover {
+  background-color: #0f6609;
+}
+
+.formBox p {
+  font-size: 14px;
+  font-weight: 500;
+  color: #2d3748;
+}
+
+.formBox p a {
+  color: #5ea776;
+}
+
+.password-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.password-wrapper input[type="password"]#password {
+  padding-left: 10px;
+  /* padding-right: 30px; */
+}
+/* hide/show password */
+
+.toggle-password {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #5ea776;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+@media (max-width: 1200px) {
+  .right {
+    padding: 36px 40px;
+  }
+  .formBox {
+    max-width: 420px;
+    padding: 32px 40px 38px;
+  }
+}
+
+@media (max-width: 992px) {
+  .left {
+    flex: 1 1 38%;
+    max-width: 38%;
+    width: 38%;
+    min-height: 100vh;
+  }
+  .right {
+    flex: 1 1 62%;
+    max-width: 62%;
+    width: 62%;
+  }
+  .rightBottom h1 {
+    width: auto;
+    max-width: 420px;
+  }
+}
+
+@media (max-width: 768px) {
+  body {
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  .left {
+    display: none;
+  }
+  .right {
+    width: 100%;
+    padding: 32px 24px 48px;
+  }
+  .rightTop {
+    width: 100%;
+    justify-content: center;
+    gap: 20px;
+  }
+  .logo {
+    gap: 18px;
+  }
+  .logo :first-child,
+  .logo :last-child {
+    width: 68px;
+  }
+  .rightTopTag {
+    gap: 10px;
+  }
+  .rightTopTag img {
+    width: 56px;
+  }
+  .tagText h1 {
+    font-size: 22px;
+  }
+  .tagText h3 {
+    font-size: 24px;
+  }
+  .rightBottom {
+    width: 100%;
+    padding: 0 6px;
+  }
+  .rightBottom h1 {
+    width: auto;
+    max-width: 100%;
+    font-size: 30px;
+  }
+  .formBox {
+    max-width: 100%;
+    padding: 28px 22px 32px;
+    border-radius: 18px;
+  }
+  .formBox h3 {
+    font-size: 22px;
+  }
+}
+
+@media (max-width: 576px) {
+  .right {
+    padding: 28px 16px 40px;
+  }
+  .rightTop {
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+  .logo :first-child,
+  .logo :last-child {
+    width: 56px;
+  }
+  .tagText h1 {
+    font-size: 20px;
+  }
+  .tagText h3 {
+    font-size: 22px;
+  }
+  .portal-title h2 {
+    font-size: 20px;
+  }
+  .portal-title p {
+    font-size: 14px;
+  }
+  .formBox {
+    padding: 26px 18px 30px;
+  }
+  .formBox label {
+    font-size: 13px;
+  }
+  .form-group input[type="email"],
+  .password-wrapper input[type="password"] {
+    padding: 12px;
+    font-size: 14px;
+  }
+  .formBox button {
+    font-size: 15px;
+    padding: 12px;
+  }
+  .toggle-password {
+    width: 18px;
+  }
+}

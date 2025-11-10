@@ -1,0 +1,221 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
+/* ---- NAV ---- */
+.navBar {
+  position: fixed;
+  top: 0;
+  width: 100vw;
+  background-color: #5fa777;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 80px;
+  z-index: 10;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: public-sans;
+}
+
+.logo img {
+  width: 42px;
+  height: auto;
+}
+
+.logo h1 {
+  font-size: 24px;
+  font-weight: bold;
+  color: white;
+  margin: 0;
+}
+
+.logo h3 {
+  font-size: 24px;
+  font-weight: normal;
+  color: #ffffff;
+  margin: 0;
+  /* line-height: 1; */
+}
+
+.tagText {
+  display: flex;
+  gap: 5px;
+}
+
+.navRight {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  gap: 20px;
+}
+
+.navRight p {
+  font-family: "public sans";
+  color: white;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.5s;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* gap: 10px; */
+  font-family: public-sans;
+  width: 40px;
+  height: 40px;
+  background-color: #0f6609;
+  border-radius: 50%;
+  color: white;
+  font-family: "Public Sans";
+  cursor: pointer;
+}
+
+.notification {
+  background-color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+}
+
+/* ---- NAV END ---- */
+
+/* ---- navigator ------ */
+.navigation {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  background-color: white;
+  font-family: "Public Sans";
+  gap: 24px;
+  padding: 70px 80px 10px 80px;
+  position: relative;
+}
+
+.navigation a {
+  text-decoration: none;
+  padding: 0;
+}
+
+.navigation div {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: color 0.5s;
+}
+
+.navigation div p {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+  color: #8b8b8b;
+}
+
+#active {
+  color: #0f6609;
+}
+
+/* notification */
+
+#notificationList {
+  /* border: solid 1px green !important; */
+  width: 350px;
+  padding: 10px;
+}
+
+#notificationList p {
+  color: var(--Gray-900, #191b1c);
+  /* color: red;
+ text-align: center; */
+  font-family: "Public Sans";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px; /* 142.857% */
+}
+
+.notificationLIstBox {
+  /* border: solid 1px red; */
+  padding: auto;
+}
+
+.notificationLIstBox div {
+  /* border: solid 1px red; */
+  display: flex;
+  /* justify-content: flex-start; */
+  text-align: start;
+  /* align-items: start; */
+  gap: 10px;
+}
+
+.notificationLIstBox div p {
+  /* border: solid 1px red; */
+  text-align: start;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+
+.notificationHeadBox {
+  /* border: solid 1px green; */
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  padding: 5px;
+  margin: 0;
+}
+
+#notificationList img {
+  width: 40px !important;
+  height: 40px !important;
+}
+
+#notificationList .notIcon {
+  /* background: #FFFDD5; */
+  display: flex;
+  padding: 12px;
+  align-items: flex-start;
+  gap: 10px;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+}
+
+.notificationTime {
+  border-bottom: solid 1px #e5e7e8;
+  display: flex;
+  justify-content: flex-end;
+  /* border: solid 2px green; */
+  margin: 0;
+  padding: 0;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--Gray-500, #7b878c);
+  /* color: red; */
+}
+
+.notificationTime .timeP {
+}
+
+.notificationColorYellow .notIcon {
+  background: rgba(240, 246, 255, 1);
+}
+
+.notificationColorRed .notIcon {
+  background-color: rgba(231, 247, 239, 1);
+}

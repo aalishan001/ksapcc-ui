@@ -1,0 +1,245 @@
+*{
+ margin: 0;
+  padding: 0;
+  /* background-color: #f6f6f6; */
+  font-family: "Public Sans";
+}
+
+/* ---- NAV ---- */
+
+.nav{
+    background-color: #5FA777;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 80px;
+    /* border: solid 1px red; */
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  /* border: solid 1px red; */
+  margin-left: 80px;
+  font-family: public-sans;
+}
+
+.logo img {
+  width: 42px;
+  height: auto;
+}
+
+.logo h1 {
+  font-size: 24px;
+  font-weight: bold;
+  color: white;
+  margin: 0;
+}
+
+.logo h3 {
+  font-size: 24px;
+  font-weight: normal;
+  color: #ffffff;
+  margin: 0;
+  line-height: 1;
+}
+
+.tagText{
+    display: flex;
+    gap: 5px;
+}
+
+.navRight{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.navRight p{
+    font-family: 'public sans';
+    color: white;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: color 0.5s;
+    margin: 0;
+}
+
+.profile{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* gap: 10px; */
+    font-family: public-sans;
+    width: 40px;
+    height: 40px;
+    background-color: #0F6609;
+    border-radius: 50%;
+    color: white;
+    font-family: 'Public Sans';
+    cursor: pointer;
+}
+
+.notification{
+    background-color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+      width: 40px;
+    height: 40px;
+    cursor: pointer;
+}
+
+/* ---- NAV END ---- */
+/* ---- NAV END ---- */
+
+/* body */
+
+.body {
+  background-color: #f6f6f6;
+  padding-bottom: 150px;
+}
+
+/* helloadmin */
+
+.body .helloadmin {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  padding: 24px 80px;
+  gap: 10px;
+}
+
+.body .helloadmin h2 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #191b1c;
+  margin: 0;
+}
+
+.body .helloadmin p {
+  font-size: 14px;
+  font-weight: 400;
+  color: #626c70;
+  margin: 0;
+}
+
+/* helloadmin end */
+
+/* --- settings ----- */
+
+.settings{
+    display: flex;
+    gap: 40px;
+}
+
+.line{
+  border: solid 1px #E5E7E8;
+  /* width: 90%; */
+  margin-top: 24px;
+  margin-bottom: 24px;
+  margin: 24px 80px;
+
+}
+
+
+.full-width-line {
+  width: 100%; 
+  margin: 0;
+  margin-right: 10vw;   
+}
+
+
+.basicSettings{
+  margin-left: 4vw;
+  width: 60vw;
+  padding: 2px 0px;
+  background-color: white;
+  border-radius: 8px;
+}
+
+.basicSettings p{
+  font-size: 16px;
+  font-weight: 600;
+  color: #191b1c;
+  margin: 24px 20px;
+
+}
+
+.mb-3 label{
+    font-size: 14px;
+    font-weight: 400;
+    color: #191b1c;
+    margin: 0;
+    padding: 0;
+}
+
+.inputs{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin: 24px 20px;
+}
+
+.inputs input:focus {
+  outline: none !important;
+  border-color: #5ea776 !important;
+  box-shadow: none !important;
+}
+
+.input-with-icon {
+  position: relative;
+}
+
+.input-with-icon input {
+  padding-right: 2rem; 
+}
+
+.input-with-icon i {
+  position: absolute;
+  top: 50%;
+  right: 0.8rem;
+  transform: translateY(-50%);
+  color: #6c757d;
+  cursor: pointer;
+}
+
+.basicSettings .btn{
+    margin: 8px 20px;
+    padding: 10px 20px;
+}
+
+/* password */
+
+.passInputDiv{
+  margin-top: 20px;
+}
+
+.passDiv{
+    /* margin-left: 4vw; */
+    width: 28vw;
+    padding: 2px 0px;
+    background-color: white;
+    border-radius: 8px;
+    padding: 20px;
+}
+
+.passDiv input:focus{
+    outline: none !important;
+    border-color: #5ea776 !important;
+    box-shadow: none !important;    
+}
+
+.passDiv p{
+    font-size: 16px;
+    font-weight: 600;
+    color: #191b1c;
+    margin: 8px 2px;
+}
+
+.passDiv .btn{
+    margin: 8px 2px;
+    padding: 10px 20px;
+}
+

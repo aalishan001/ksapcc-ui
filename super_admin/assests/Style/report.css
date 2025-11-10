@@ -1,0 +1,438 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Public Sans";
+}
+
+/* --------- body ----------- */
+
+.body {
+  background-color: #f6f6f6;
+  padding-bottom: 100px;
+}
+
+/* helloadmin */
+
+.body .helloadmin {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  /* width: 100%; */
+  padding: 24px 80px;
+  gap: 10px;
+}
+
+.body .helloadmin h2 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #191b1c;
+  margin: 0;
+}
+
+.body .helloadmin p {
+  font-size: 14px;
+  font-weight: 400;
+  color: #626c70;
+  margin: 0;
+}
+
+/* download */
+
+.downloadingDiv {
+  display: flex;
+  width: 92vw;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 45px;
+  background-color: white;
+  border-radius: 8px;
+  margin: 0 auto;
+}
+
+.downloadingDiv div {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.downloadingDiv div h2 {
+  color: #191b1c;
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0;
+}
+
+/* -------- mainDiv --------- */
+
+.mainDiv {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap !important;
+  width: 100%;
+  padding: 32px 40px;
+  flex-wrap: wrap;
+  gap: 0 !important;
+  /* border: solid 1px red; */
+}
+
+.line {
+  border: solid 1px #e5e7e8;
+  /* width: 76vw; */
+  margin: 24px 0px;
+}
+.filterDiv {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  /* height: 100vh; */
+  width: 100%;
+  padding: 0;
+  /* border: solid 1px rgb(0, 0, 0); */
+}
+.filter {
+  background-color: white;
+  padding: 0.52vw;
+  width: 95%;
+  /* border: solid 1px rgb(0, 0, 0); */
+  /* margin-top: 28px; */
+  border-radius: 8px;
+  height: 240px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.form-select {
+  width: 95% !important;
+  margin-left: 12px;
+  margin-right: 12px;
+}
+
+.tableContainer {
+  max-width: 1460px;
+  margin: 0 auto;
+  /* padding: 0 0; */
+  /* border: solid 2px yellow; */
+}
+
+.dateTime {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: #191b1c;
+  padding: 0;
+}
+
+.dateTime p {
+  margin: 0;
+}
+
+/* ------------------------------------ */
+
+.kpidetailBox {
+  width: 76vw;
+  gap: 10px;
+}
+
+.kpicardsDiv{
+  /* border: solid 1px red; */
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  /* gap: 10px; */
+
+}
+
+.kpidetailBox1 {
+  width: 50vw;
+  /* height: 150px; */
+  height: 100%;
+  /* border: solid 1px blue; */
+  border-radius: 8px;
+  background: #fff;
+  padding: 10px 0;
+}
+
+.kpiNameDate .kpiName {
+  color: var(--Calendar-Label-Black, #191B1C);;
+  text-align: center;
+  font-family: "Public Sans";
+  font-size: 1.1vw;
+  font-style: normal;
+  font-weight: 600;
+  /* line-height: 24px; */
+  padding: 0;
+  margin: 0;
+}
+
+#cardtime{
+  color: var(--secondary-colour, #8B8B8B);
+font-family: "Public Sans";
+font-size: 0.73vw;
+font-style: normal;
+font-weight: 400;
+/* line-height: 20px; */
+}
+
+#kpiStats .big_cardStats{
+  color: var(--Gray-900, #191B1C);
+text-align: center;
+font-family: "Public Sans";
+font-size: 1.04vw;
+font-style: normal;
+font-weight: 600;
+line-height: 28px;
+}
+
+#kpiStats p{
+  color: #4A5154;
+}
+
+.kpidetailBox2 {
+  width: 25vw;
+  /* height: 100%; */
+  /* border: solid 2px red; */
+  height: 150px;
+  border-radius: 8px;
+  display: grid;
+  gap: 8px;
+  grid-template-columns: 1fr 1fr;
+}
+
+.kpiDetail2boxes {
+  background-color: #fff;
+  padding: 5px 0;
+  /* height: 100%; */
+}
+
+.kpiDetail2boxes h3 {
+  color: var(--Gray-900, #191b1c);
+  text-align: center;
+  font-family: "Public Sans";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 24px;
+  padding: 0;
+  margin: 0;
+}
+
+.kpiDetail2boxes p {
+  color: #4a5154;
+  text-align: center;
+  font-family: "Public Sans";
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+  padding: 0;
+  margin: 0;
+}
+
+/* card for kpi detail box */
+
+.kpiDetailHeader {
+  margin: auto;
+  width: 92%;
+  text-align: center;
+  border-radius: 4px;
+  background: #edfff3;
+  color: var(--Green-2, #0f6609);
+  font-family: "Public Sans";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px;
+}
+
+.kpiNameDate {
+  width: 90%;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* border: solid 1px red; */
+  padding: auto 0;
+}
+
+.kpiNameDate h3 {
+  color: var(--Calendar-Label-Black, #191b1c);
+  font-family: "Public Sans";
+  font-size: 20px;
+  /* font-style: normal; */
+  font-weight: 600;
+  line-height: 28px;
+  text-align: center;
+}
+
+.kpiNameDate p {
+  font-size: 14px;
+  font-weight: 400;
+  color: #4a5154;
+  text-align: center;
+  margin: 0;
+}
+
+.kpiBoxline {
+  width: 92%;
+  border: solid 1px #e5e7e8;
+  margin: auto;
+}
+
+.kpiBigStats {
+  /* border: solid 3px green; */
+  width: 92%;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+}
+
+.kpiBigStats .kpiStats {
+  /* border: solid 1px red; */
+  margin-top: 10px;
+  width: 12vw;
+}
+
+.horizontalLine {
+  margin: auto;
+  height: 50px;
+  border-right: 0.5px solid #8b8b8b;
+}
+
+.kpiStats h2 {
+  color: var(--Gray-900, #191b1c);
+  /* color: red; */
+  text-align: center;
+  font-family: "Public Sans";
+  font-size: 1.1vw;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 28px;
+  /* border: solid 1px green; */
+  text-align: center;
+}
+
+.kpiStats p {
+  color: #4a5154;
+  text-align: center;
+  font-family: "Public Sans";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+/* kpi detail end */
+
+/* graph */
+
+.graphbox {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 20px;
+  /* border: solid 1px red; */
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.graphbox .graph_boxG {
+  /* border: solid 1px red; */
+  width: 24vw;
+
+}
+
+.graphbox div {
+  /* border: solid 1px black; */
+  /* display: flex;
+  flex-direction: column;
+  justify-content: end; */
+}
+
+
+.chart-container {
+  border-radius: 8px;
+  background: #fff;
+  padding: 10px;
+  width: 100%;
+  /* height: 20vw; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  /* border: solid 1px red; */
+
+}
+
+/* Top title for the chart */
+.chart-title {
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  /* border: #0f6609 solid 1px; */
+  width: 80%;
+  margin: auto;
+  margin-bottom: 20px;
+  background-color: #edfff3;
+  color: rgba(15, 102, 9, 1);
+}
+
+/* Row for the canvas and vertical label */
+.chart-row {
+  display: flex;
+  flex-direction: row; /* Align canvas and vertical label in a row */
+  align-items: center;
+}
+
+/* Vertical label styling */
+.vertical-label {
+  writing-mode: vertical-rl; /* Rotates the text vertically */
+  transform: rotate(180deg);
+  margin-right: 8px;
+  color: var(--Green-2, #0f6609);
+  font-family: "Public Sans";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px;
+}
+
+.graphBase-label {
+  color: var(--Green-2, #0f6609);
+  width: 100%;
+  font-family: "Public Sans";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px;
+  text-align: center;
+  margin-top: 8px;
+}
+
+/* Canvas styling */
+canvas {
+  /* border: 1px solid #ccc; */
+  width: 93% !important;
+}
+
+
+/* buttoon */
+
+#applyButton{
+  margin: auto;
+  border-radius: 32px;
+background: var(--Green-1, #5FA777);
+display: flex;
+width: 200px;
+padding: 5px 24px;
+justify-content: center;
+align-items: center;
+gap: 8px;
+flex-shrink: 0;
+color: #FFF;
+border: none;
+}

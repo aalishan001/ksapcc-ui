@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gallery - KSAPCC | Govt. of Karnataka</title>
+    <link rel="icon" href="./assests/img/green_logo.svg" type="image/png">
+    <link rel="stylesheet" href="./assests/style/landingPage.css" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Public Sans"
+      rel="stylesheet"
+    />
+    <style>
+      .gallery-section {
+        margin-top: 120px;
+        padding: 40px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .gallery-header {
+        text-align: center;
+        margin-bottom: 40px;
+        max-width: 60vw;
+      }
+
+      .gallery-header h1 {
+        font-family: "Public Sans", sans-serif;
+        font-weight: 800;
+        font-size: 40px;
+        line-height: 2.5vw;
+        color: #5fa777;
+        margin-bottom: 20px;
+      }
+
+      .gallery-header h1 span {
+        color: #13131a;
+        font-weight: 400;
+      }
+
+      .gallery-header p {
+        font-family: "Public Sans", sans-serif;
+        font-weight: 300;
+        font-size: 16px;
+        color: #525252;
+        line-height: 1.5;
+      }
+
+      .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 30px;
+        width: 100%;
+        max-width: 1200px;
+        margin-top: 40px;
+      }
+
+      .gallery-item {
+        background-color: #f3fff7;
+        border: 1px solid #dcffe8;
+        border-radius: 20px;
+        overflow: hidden;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .gallery-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      }
+
+      .gallery-item img {
+        width: 100%;
+        height: 250px;
+        object-fit: cover;
+        border-radius: 20px 20px 0 0;
+      }
+
+      .gallery-item-content {
+        padding: 20px;
+      }
+
+      .gallery-item-content h3 {
+        font-family: "Public Sans", sans-serif;
+        font-weight: 600;
+        font-size: 18px;
+        color: #333333;
+        margin-bottom: 10px;
+      }
+
+      .gallery-item-content p {
+        font-family: "Public Sans", sans-serif;
+        font-weight: 400;
+        font-size: 14px;
+        color: #6e6e73;
+        line-height: 1.4;
+      }
+
+      @media (max-width: 1024px) {
+        .gallery-section {
+          margin-top: 110px;
+          padding: 32px;
+        }
+        .gallery-header {
+          max-width: 80vw;
+        }
+        .gallery-header h1 {
+          font-size: 34px;
+          line-height: 1.3;
+        }
+        .gallery-grid {
+          gap: 24px;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .gallery-section {
+          margin-top: 96px;
+          padding: 24px 20px 60px;
+        }
+        .gallery-header {
+          max-width: 90vw;
+        }
+        .gallery-header h1 {
+          font-size: 28px;
+        }
+        .gallery-header p {
+          font-size: 15px;
+        }
+        .gallery-grid {
+          grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+          gap: 20px;
+        }
+        .gallery-item img {
+          height: 220px;
+        }
+      }
+
+      @media (max-width: 576px) {
+        .gallery-section {
+          margin-top: 80px;
+          padding: 20px 16px 50px;
+        }
+        .gallery-header h1 {
+          font-size: 24px;
+          line-height: 1.25;
+        }
+        .gallery-header p {
+          font-size: 14px;
+        }
+        .gallery-grid {
+          grid-template-columns: 1fr;
+          gap: 18px;
+        }
+        .gallery-item img {
+          height: 200px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <div class="brandWrap">
+        <a class="logo" href="./landingPage.html">
+          <img src="./assests/img/logo1.svg" alt="KSAPCC logo" />
+        </a>
+      </div>
+      <button
+        class="navToggle"
+        type="button"
+        aria-label="Toggle navigation"
+        aria-controls="primaryNav"
+        aria-expanded="false"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <div class="navContains" id="primaryNav">
+        <a href="./landingPage.html"><button>Home</button></a>
+        <a href="./landingPage.html#bg"><button>Background</button></a>
+        <a href="./how-it-works.html"><button>How it works</button></a>
+        <a href="./partners.html"><button>Partners</button></a>
+        <a href="./gallery.html"><button>Gallery</button></a>
+        <div class="dropdown">
+          <button class="dropbtn" type="button" aria-expanded="false">
+            Resources
+          </button>
+          <div class="dropdown-content">
+            <a href="./assests/Draft Report.pdf" target="_blank">KSAPCC V2</a>
+            <a href="./assests/First Assessment.pdf" target="_blank"
+              >KSAPCC V1</a
+            >
+            <a href="./assests/Final Training Module.pdf" target="_blank"
+              >Training Module – KSAPCC Monitoring</a
+            >
+            <a href="./assests/Concept Note.pdf" target="_blank"
+              >Concept Note- KSAPCC Monitoring</a
+            >
+          </div>
+        </div>
+
+        <a href="./login.html">
+          <button id="departmentLogin">Department Login</button>
+        </a>
+      </div>
+      <div class="logo logoSecondary">
+        <img src="./assests/img/EMRRI.svg" alt="EMPRI logo" />
+      </div>
+    </nav>
+
+    <div class="gallery-section">
+      <div class="gallery-header">
+        <h1><span>Capturing Moments of</span> Climate Action</h1>
+        <p>
+          Explore our collection of events, meetings, and initiatives that
+          showcase Karnataka's commitment to climate change action. These images
+          capture the collaborative efforts, training sessions, stakeholder
+          engagements, and progress milestones that define our journey toward a
+          sustainable and resilient future. From capacity-building workshops to
+          partnership agreements, every moment represents a step forward in
+          implementing the Karnataka State Action Plan on Climate Change.
+        </p>
+      </div>
+
+      <div class="gallery-grid">
+        <div class="gallery-item">
+          <img
+            src="./assests/img/gallery/image1.jpg"
+            alt="KSAPCC Stakeholder Meeting"
+          />
+          <div class="gallery-item-content">
+            <h3>KSAPCC Stakeholder Meeting</h3>
+            <p>
+              Strategic planning session with government officials and
+              environmental experts to discuss climate action implementation
+              across Karnataka.
+            </p>
+          </div>
+        </div>
+
+        <div class="gallery-item">
+          <img
+            src="./assests/img/gallery/image2.jpg"
+            alt="Capacity Building Workshop"
+          />
+          <div class="gallery-item-content">
+            <h3>Capacity Building Workshop</h3>
+            <p>
+              Training session for district-level officials on climate
+              monitoring dashboard usage and data collection procedures.
+            </p>
+          </div>
+        </div>
+
+        <div class="gallery-item">
+          <img
+            src="./assests/img/gallery/image3.jpg"
+            alt="Climate Action Conference"
+          />
+          <div class="gallery-item-content">
+            <h3>Climate Action Conference</h3>
+            <p>
+              Multi-stakeholder conference bringing together departments, NGOs,
+              and community representatives to align on climate goals.
+            </p>
+          </div>
+        </div>
+
+        <div class="gallery-item">
+          <img
+            src="./assests/img/gallery/image4.jpg"
+            alt="Technical Training Session"
+          />
+          <div class="gallery-item-content">
+            <h3>Technical Training Session</h3>
+            <p>
+              Hands-on training for government officials on real-time monitoring
+              systems and reporting mechanisms.
+            </p>
+          </div>
+        </div>
+
+        <div class="gallery-item">
+          <img
+            src="./assests/img/gallery/image5.jpg"
+            alt="Partnership Agreement Signing"
+          />
+          <div class="gallery-item-content">
+            <h3>Partnership Agreement Signing</h3>
+            <p>
+              Formal collaboration agreement ceremony between EMPRI, CEE, and
+              Hanns Seidel Foundation for enhanced climate action.
+            </p>
+          </div>
+        </div>
+
+        <div class="gallery-item">
+          <img
+            src="./assests/img/gallery/image6.jpg"
+            alt="Field Visit & Assessment"
+          />
+          <div class="gallery-item-content">
+            <h3>Field Visit & Assessment</h3>
+            <p>
+              On-ground assessment of climate adaptation projects and their
+              impact on local communities and ecosystems.
+            </p>
+          </div>
+        </div>
+
+        <div class="gallery-item">
+          <img
+            src="./assests/img/gallery/image7.jpeg"
+            alt="Dashboard Demonstration"
+          />
+          <div class="gallery-item-content">
+            <h3>Dashboard Demonstration</h3>
+            <p>
+              Live demonstration of the KSAPCC monitoring dashboard showcasing
+              real-time data visualization and reporting features.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="footer">
+      <h1>
+        <span style="color: black">EMPOWERING TRANSPARENCY,</span> DRIVING
+        CHANGE – TOGETHER FOR A
+        <span style="color: #96fc04">GREENER</span> TOMMORROW
+      </h1>
+      <div class="footerMid">
+        <img src="./assests/img/EMRRI.svg" alt="" />
+        <div class="footerMidText">
+          <p>
+            dgempri@karnataka.gov.in<br />
+            dr_empri@karnataka.gov.in<br />
+            dcc-empri@karnataka.gov.in
+          </p>
+        </div>
+        <div class="footerBot">
+          <p>All rights reserved. Copyrights © 2024 Ltd.</p>
+          <div>
+            <p>PRIVACY POLICY</p>
+            <p>TERMS & CONDITIONS</p>
+          </div>
+          <div>
+            <img src="./assests/img/twitter.svg" alt="" />
+            <img src="./assests/img/fb.svg" alt="" />
+          </div>
+        </div>
+      </div>
+    </footer>
+    <script src="./assests/JS/siteNav.js"></script>
+  </body>
+</html>

@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard - Department</title>
+    <link rel="stylesheet" href="./assests/style/navigation.css" />
+    <link rel="stylesheet" href="./assests/style/notification.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Public Sans"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/ag-grid-community/dist/ag-grid-community.min.js"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+      integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" href="./assests/style/departmentDashboard.css" />
+    <link rel="icon" href="./assests/img/green_logo.svg" type="image/png" />
+  </head>
+  <body>
+    <nav class="nav">
+      <div class="logo">
+        <img src="./assests/img/green_logo.svg" alt="" />
+        <div class="tagText">
+          <h1>KSAPCC</h1>
+          <h3>Monitoring</h3>
+        </div>
+      </div>
+      <div class="navRight">
+        <p id="nameHeader"></p>
+        <div class="profile"></div>
+        <div class="notification dropdown">
+          <i
+            class="bi bi-bell"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          ></i>
+          <ul class="dropdown-menu" id="notificationList"></ul>
+        </div>
+      </div>
+    </nav>
+    <div class="navigation">
+      <a href="./departmentDashboard.html">
+        <div href="departmentDashboard.html">
+          <svg
+            width="20"
+            height="21"
+            viewBox="0 0 20 21"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M16.875 17.0442V9.19571C16.875 9.10862 16.8568 9.0225 16.8216 8.94286C16.7863 8.86323 16.7349 8.79183 16.6704 8.73325L10.42 3.05082C10.3049 2.94622 10.155 2.88827 9.99955 2.88828C9.84406 2.88828 9.69415 2.94624 9.57911 3.05085L3.32954 8.73325C3.26511 8.79183 3.21364 8.86323 3.17842 8.94286C3.14319 9.02249 3.125 9.10861 3.125 9.19568V17.0442"
+              stroke="#0F6609"
+              stroke-width="1.25"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M1.25 17.0443H18.75"
+              stroke="#0F6609"
+              stroke-width="1.25"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M11.8745 17.0436V12.6686C11.8745 12.5028 11.8087 12.3438 11.6915 12.2266C11.5742 12.1094 11.4153 12.0436 11.2495 12.0436H8.74951C8.58375 12.0436 8.42478 12.1094 8.30757 12.2266C8.19036 12.3438 8.12451 12.5028 8.12451 12.6686V17.0436"
+              stroke="#0F6609"
+              stroke-width="1.25"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+          <p id="active">Dashboard</p>
+        </div>
+      </a>
+      <a href="./setting.html">
+        <div>
+          <img src="./assests/img/setting_Icon.svg" alt="setting" />
+          <p>Settings</p>
+        </div>
+      </a>
+      <div id="logout">
+        <img src="./assests/img/logout.svg" alt="logout" />
+        <p>Logout</p>
+      </div>
+    </div>
+    <div class="body">
+      <div class="helloadmin">
+        <!-- <h2>👋 Hello, Department of Agriculture</h2> -->
+        <h2 id="hello"></h2>
+        <p>Here is all your Departmental analytics overview</p>
+      </div>
+
+      <!-- NEW PERFORMANCE CARDS SECTION -->
+      <div class="analytics">
+        <div class="analytics-header">
+          <div class="analytics-header__titles">
+            <h2>Department performance</h2>
+            <p>Live view of KPI attainment across all departments</p>
+          </div>
+        </div>
+        <div class="analytics-grid" id="department-performance-cards">
+          <!-- Department performance cards will be injected here by JavaScript -->
+        </div>
+      </div>
+
+      <div class="line"></div>
+      <div class="longCards">
+        <p>Assigned KPI's</p>
+        <div class="cards" id="cards"></div>
+      </div>
+
+      <div class="graph">
+        <div class="recentChart">
+          <div class="recnet-heading">
+            <div>
+              <img src="./assests/img/Notepad.svg" alt="" />
+              <h2>KPI Tracker</h2>
+            </div>
+            <div>
+              <div class="input-container">
+                <i class="bi bi-search"></i>
+                <input
+                  type="text"
+                  id="trackerSearch"
+                  placeholder="Search KPI, baseline, unit or strategy"
+                  aria-label="Search KPI tracker"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="table">
+            <div
+              id="myGrid"
+              class="ag-theme-quartz"
+              style="height: auto"
+            ></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- modal -->
+    <div
+      class="modal fade"
+      id="exampleModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog custom-wide">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">—</h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <!-- modal body -->
+          <div class="modal-body" id="modalbody">
+            <div class="kpi-modal" id="kpiModal">
+              <div class="kpi-modal__header">
+                <div>
+                  <span class="kpi-modal__eyebrow">KPI overview</span>
+                  <h2 class="kpi-modal__title" id="modalKpiTitle">—</h2>
+                </div>
+                <button
+                  type="button"
+                  class="kpi-modal__info"
+                  data-bs-toggle="tooltip"
+                  data-bs-placement="left"
+                  title="Targets are cumulative year-on-year, so enter cumulative attainment figures."
+                  aria-label="KPI targeting guidance"
+                >
+                  <i class="bi bi-info-circle"></i>
+                </button>
+              </div>
+              <div class="kpi-modal__meta">
+                <div class="kpi-modal__meta-item">
+                  <span class="kpi-modal__meta-label">Unit</span>
+                  <span class="kpi-modal__meta-value" id="modalKpiUnit">—</span>
+                </div>
+                <div class="kpi-modal__meta-item">
+                  <span class="kpi-modal__meta-label">Baseline</span>
+                  <span class="kpi-modal__meta-value" id="modalBaseline"
+                    >—</span
+                  >
+                </div>
+                <div class="kpi-modal__meta-item">
+                  <span class="kpi-modal__meta-label">5-year target</span>
+                  <span class="kpi-modal__meta-value" id="modalFiveYearTarget"
+                    >—</span
+                  >
+                </div>
+                <div class="kpi-modal__meta-item">
+                  <span class="kpi-modal__meta-label">Last updated</span>
+                  <span class="kpi-modal__meta-value" id="modalLastUpdated"
+                    >—</span
+                  >
+                </div>
+              </div>
+              <div class="kpi-modal__fields">
+                <div class="kpi-modal__field">
+                  <label for="modalCoordinating"
+                    >Co-ordinating departments</label
+                  >
+                  <textarea
+                    class="form-control"
+                    id="modalCoordinating"
+                    rows="2"
+                    placeholder="List coordinating departments"
+                  ></textarea>
+                </div>
+                <div class="kpi-modal__field">
+                  <label for="modalStrategies">Strategies</label>
+                  <textarea
+                    class="form-control"
+                    id="modalStrategies"
+                    rows="3"
+                    placeholder="Outline strategies or approach"
+                  ></textarea>
+                </div>
+              </div>
+              <div
+                class="kpi-modal__feedback"
+                id="modalFeedback"
+                role="alert"
+                hidden
+              ></div>
+              <div class="kpi-modal__years">
+                <div class="kpi-modal__years-header">
+                  <h3>Annual targets (cumulative)</h3>
+                  <p>
+                    Submit the next cumulative attainment and add context for
+                    each year.
+                  </p>
+                </div>
+                <div class="kpi-modal__year-grid" id="modalYearGrid"></div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-success rounded-pill"
+              id="saveChanges"
+            >
+              Save Changes
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
+      integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
+      crossorigin="anonymous"
+    ></script>
+    <div
+      class="modal fade"
+      id="confirmUpdateModal"
+      tabindex="-1"
+      aria-labelledby="confirmUpdateLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content confirm-modal">
+          <div class="modal-header">
+            <h5 class="modal-title" id="confirmUpdateLabel">Confirm update</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <p id="confirmUpdateSummary" class="mb-0">
+              Please review your changes before submitting. This action will
+              notify the super admin team.
+            </p>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-outline-secondary"
+              data-bs-dismiss="modal"
+            >
+              Review again
+            </button>
+            <button type="button" class="btn btn-success" id="confirmUpdateBtn">
+              Confirm &amp; update
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="./assests/JS/departmentDashboard.js"></script>
+    <script src="./assests/JS/headNav.js"></script>
+    <script src="./assests/JS/notification.js"></script>
+  </body>
+</html>
