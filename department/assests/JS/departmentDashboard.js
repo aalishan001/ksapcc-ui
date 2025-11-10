@@ -786,7 +786,16 @@ function renderYearRows(context) {
       const updatedAtKey = `${cfg.key}_updated_at`;
       const firstUpdatedAtRaw = row[updatedAtKey];
       const canReupdate = isWithinSevenDays(firstUpdatedAtRaw);
-      if (canReupdate) {
+      // Debug trace
+      console.debug("[EditWindow] Year", cfg.key, {
+        value: row[cfg.key],
+        updatedAtKey,
+        firstUpdatedAtRaw,
+        parsed: parseFlexibleTimestamp(firstUpdatedAtRaw),
+        canReupdate,
+      });
+      // Allow Change button also if timestamp missing but value exists (fallback) so user can still edit and we can diagnose.
+      if (canReupdate || (firstUpdatedAtRaw == null && row[cfg.key] != null)) {
         const changeBtn = document.createElement("button");
         changeBtn.type = "button";
         changeBtn.className = "btn btn-link btn-sm p-0 ms-2";
@@ -824,7 +833,11 @@ function renderYearRows(context) {
         remainingEl.className = "edit-window-remaining text-muted ms-2";
         remainingEl.id = `remaining-${cfg.key}`;
         achievementCell.appendChild(remainingEl);
-        updateRemainingCountdown(cfg.key, firstUpdatedAtRaw);
+        if (firstUpdatedAtRaw) {
+          updateRemainingCountdown(cfg.key, firstUpdatedAtRaw);
+        } else {
+          remainingEl.textContent = "Timestamp pending; editable";
+        }
       } else if (firstUpdatedAtRaw) {
         // Window expired hint (subtle)
         const expiredEl = document.createElement("small");
