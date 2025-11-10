@@ -984,20 +984,20 @@ function collectModalChanges() {
 
 function isWithinSevenDays(dateString) {
   if (!dateString) return false;
-  const date = new Date(dateString);
-  if (Number.isNaN(date.getTime())) return false;
+  const date = parseFlexibleTimestamp(dateString);
+  if (!date) return false;
   const now = new Date();
-  const msDiff = now - date;
+  const msDiff = now.getTime() - date.getTime();
   const sevenDaysMs = 7 * 24 * 60 * 60 * 1000;
   return msDiff >= 0 && msDiff < sevenDaysMs;
 }
 
 function msUntilWindowEnds(dateString) {
   if (!dateString) return 0;
-  const start = new Date(dateString);
-  if (Number.isNaN(start.getTime())) return 0;
+  const start = parseFlexibleTimestamp(dateString);
+  if (!start) return 0;
   const end = new Date(start.getTime() + 7 * 24 * 60 * 60 * 1000);
-  return end - new Date();
+  return end.getTime() - Date.now();
 }
 
 function humanRemaining(ms) {
@@ -1018,11 +1018,28 @@ function updateRemainingCountdown(yearKey, firstUpdatedAtRaw) {
     return;
   }
   el.textContent = `${humanRemaining(msLeft)} left to edit`;
-  // Update roughly each hour to keep UI lightweight
+  // Update every hour for low resource usage
   setTimeout(
     () => updateRemainingCountdown(yearKey, firstUpdatedAtRaw),
     60 * 60 * 1000
   );
+}
+
+function parseFlexibleTimestamp(ts) {
+  if (!ts) return null;
+  // If already a Date
+  if (ts instanceof Date) return ts;
+  const raw = String(ts).trim();
+  // Try native parse
+  let d = new Date(raw);
+  if (!Number.isNaN(d.getTime())) return d;
+  // Replace space with T
+  d = new Date(raw.replace(" ", "T"));
+  if (!Number.isNaN(d.getTime())) return d;
+  // Append Z for UTC interpretation
+  d = new Date(raw.replace(" ", "T") + "Z");
+  if (!Number.isNaN(d.getTime())) return d;
+  return null;
 }
 
 function handleSaveClick(event) {
