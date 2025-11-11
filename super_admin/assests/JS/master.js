@@ -370,6 +370,8 @@ async function handleAssignKpiClick() {
 
   // Load units for the dropdown
   await loadUnitsForKpi();
+  // Also load optional Master KPI/Sub-KPI selectors if present in DOM
+  await loadKpiAndSubKpiOptions();
 
   // Update modal title to show current count
   const modalTitle = document.getElementById("assignModalLabel");
@@ -414,6 +416,55 @@ async function loadUnitsForKpi() {
   }
 }
 
+// Load Master KPI and Sub-KPI options (optional controls)
+async function loadKpiAndSubKpiOptions() {
+  try {
+    const masterSelect = document.getElementById("masterKpiSelect");
+    const subSelect = document.getElementById("subKpiSelect");
+    if (!masterSelect || !subSelect) {
+      // Optional controls not present; nothing to do
+      return;
+    }
+
+    masterSelect.innerHTML =
+      '<option value="">Select Master KPI (optional)</option>';
+    subSelect.innerHTML = '<option value="">Select Sub KPI (optional)</option>';
+
+    const response = await fetch(
+      `https://ksapccmonitoring.in/kpi_app/kpi/all_with_subkpis/${tok}`
+    );
+    const data = await response.json();
+    if (data.errflag !== 0 || !Array.isArray(data.kpis)) {
+      console.warn("Unable to load master/sub KPIs:", data.message);
+      return;
+    }
+
+    const mapping = {};
+    data.kpis.forEach((k) => {
+      const opt = document.createElement("option");
+      opt.value = k.id;
+      opt.textContent = k.name;
+      masterSelect.appendChild(opt);
+      mapping[k.id] = k.sub_kpis || [];
+    });
+
+    masterSelect.onchange = () => {
+      const mid = masterSelect.value;
+      subSelect.innerHTML =
+        '<option value="">Select Sub KPI (optional)</option>';
+      if (!mid || !mapping[mid] || mapping[mid].length === 0) return;
+      mapping[mid].forEach((sk) => {
+        const so = document.createElement("option");
+        so.value = sk.id;
+        so.textContent = sk.name;
+        subSelect.appendChild(so);
+      });
+    };
+  } catch (error) {
+    console.error("Error loading KPI/Sub-KPI options", error);
+  }
+}
+
 // Handle Save KPI in modal
 function handleSaveKpi() {
   const KPIName = document.getElementById("KPIName").value;
@@ -424,6 +475,8 @@ function handleSaveKpi() {
   const target3 = document.getElementById("target3").value;
   const target2 = document.getElementById("target2").value;
   const target1 = document.getElementById("target1").value;
+  const subKpiSelect = document.getElementById("subKpiSelect");
+  const sub_kpi_id = subKpiSelect ? subKpiSelect.value : "";
 
   if (!KPIName || !unitOfMeasurement || !baselineStat) {
     alert("Please fill in all required KPI fields");
@@ -441,6 +494,10 @@ function handleSaveKpi() {
     t4: target4 || 0,
     t5: target5 || 0,
   };
+
+  if (sub_kpi_id) {
+    kpiData.sub_kpi_id = sub_kpi_id;
+  }
 
   // Add to array instead of replacing
   tempKpiDataArray.push(kpiData);
@@ -592,6 +649,9 @@ async function handleAddDepartmentWithMultipleKpis(
       kpiFormData.append("t4", kpiData.t4);
       kpiFormData.append("t5", kpiData.t5);
       kpiFormData.append("token", tok);
+      if (kpiData.sub_kpi_id) {
+        kpiFormData.append("sub_kpi_id", kpiData.sub_kpi_id);
+      }
 
       const kpiResponse = await fetch(
         "https://ksapccmonitoring.in/kpi_app/add_department_kpi",
