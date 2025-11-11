@@ -442,10 +442,11 @@ async function loadKpiAndSubKpiOptions() {
     const mapping = {};
     data.kpis.forEach((k) => {
       const opt = document.createElement("option");
-      opt.value = k.id;
-      opt.textContent = k.name;
+      // API returns kpi_id and kpi_name
+      opt.value = k.kpi_id;
+      opt.textContent = k.kpi_name;
       masterSelect.appendChild(opt);
-      mapping[k.id] = k.sub_kpis || [];
+      mapping[k.kpi_id] = k.sub_kpis || [];
     });
 
     masterSelect.onchange = () => {
@@ -504,23 +505,17 @@ function handleSaveKpi() {
 
   console.log("KPI data added to array:", kpiData);
   console.log("Total KPIs saved:", tempKpiDataArray.length);
-
   showToast(
     `KPI "${KPIName}" saved! Total KPIs: ${tempKpiDataArray.length}`,
     "success"
   );
-
   // Update counter display
   updateKpiCounter();
-
   // Update clear button visibility
   addClearKpisButton();
-
   // Clear the form
   clearKpiForm();
 }
-
-// Update KPI counter display
 function updateKpiCounter() {
   const addDepartmentButton = document.getElementById("addDepartment");
   const existingCounter = document.getElementById("kpiCounter");

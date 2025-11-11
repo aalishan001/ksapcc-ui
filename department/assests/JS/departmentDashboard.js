@@ -20,9 +20,16 @@ const gridOptions = {
       cellRenderer: (params) => {
         const name = escapeHtml(params.data?.kpis || "Untitled KPI");
         const date = formatUpdatedAt(params.data?.updated_at);
+        const subId = params.data?.sub_kpi_id;
+        const subLine = subId
+          ? `<span class="grid-chip grid-chip--subkpi" title="Sub-KPI ID: ${escapeHtml(
+              String(subId)
+            )}">Sub-KPI • ${escapeHtml(String(subId))}</span>`
+          : "";
         return `
           <div class="grid-primary-cell grid-primary-cell--compact" title="${name}">
             <span class="grid-primary-title" title="${name}">${name}</span>
+            ${subLine}
             <span class="grid-subtitle" title="Last updated: ${date}">Last updated: ${date}</span>
           </div>
         `;
