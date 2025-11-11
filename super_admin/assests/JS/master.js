@@ -144,6 +144,15 @@ document.addEventListener("DOMContentLoaded", async () => {
   const assignKpiButton = document.getElementById("assignKpiButton");
   assignKpiButton.addEventListener("click", handleAssignKpiClick);
 
+  // Also load master/sub-KPI options when the Assign modal is shown (extra safety)
+  const assignModalEl = document.getElementById("assignModal");
+  if (assignModalEl) {
+    assignModalEl.addEventListener("shown.bs.modal", () => {
+      console.info("[AssignModal] shown -> loading Master/Sub-KPI options");
+      loadKpiAndSubKpiOptions();
+    });
+  }
+
   // Add event listener for Save KPI button in modal
   const saveKpiButton = document.getElementById("saveKpiButton");
   saveKpiButton.addEventListener("click", handleSaveKpi);
