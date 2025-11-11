@@ -10,8 +10,8 @@ deployment:
 
     # 2) Define paths
     - export REPO_ROOT="$CPANEL_GIT_DEPLOY_DIR"
-    - export TARGET_ROOT="/home2/ksapccmonitoring/public_html/kpi-ui"
-    - export BACKUP_ROOT="/home2/ksapccmonitoring/public_html/kpi-ui_backup_${DEPLOY_TS}"
+    - export TARGET_ROOT="/home2/ksapccmonitoring/public_html/ksapcc-ui"
+    - export BACKUP_ROOT="/home2/ksapccmonitoring/public_html/ksapcc-ui_backup_${DEPLOY_TS}"
 
     # 3) Backup current live folder if exists (directory or symlink)
     - if [ -d "$TARGET_ROOT" ] || [ -L "$TARGET_ROOT" ]; then cp -a "$TARGET_ROOT" "$BACKUP_ROOT"; fi

@@ -5,7 +5,7 @@ let deptId;
 let currentEditingKpi = null; // Add this global variable
 
 let currentDepartmentId = null;
-// console.log("department")
+// (debug placeholder removed)
 async function fetchdetails(tok) {
   try {
     const response = await fetch(
@@ -69,7 +69,7 @@ const gridOptions = {
       cellRenderer: (params) => {
         let data = JSON.stringify(params.data).replace(/"/g, "&quot;");
         let name = params.data.dept_name;
-        // console.log(data);
+        // cell click handled by handleDepartment
         return `<p style="font-weight: 500; cursor: pointer;" 
            data-bs-toggle="modal" data-bs-target="#exampleModal" 
            onclick="handleDepartment('${data}')">${name}</p>`;
@@ -80,7 +80,6 @@ const gridOptions = {
       headerName: "APPROVAL STATUS",
       maxWidth: 250,
       cellRenderer: (params) => {
-        // console.log("params: ", params);
         const value = params.data.approval_status;
         const id = params.data.department_id;
         let content = "";
@@ -128,12 +127,10 @@ const gridOptions = {
 
           // Add click listeners to log the appropriate message
           approveButton.addEventListener("click", () => {
-            // console.log(`ID ${id}: APPROVE clicked`);
             toggleStatus(id, 1);
           });
 
           rejectButton.addEventListener("click", () => {
-            // console.log(`ID ${id}: REJECT clicked`);
             toggleStatus(id, 2);
           });
 
@@ -290,7 +287,7 @@ function updatePaginationSummary(api) {
 }
 
 async function handleAssignClick(data) {
-  console.log(data);
+  // dept row selected
   deptId = data.dept_master_id;
   const unitSelector = document.getElementById("unitSelector");
   unitSelector.innerHTML = "";
@@ -301,7 +298,6 @@ async function handleAssignClick(data) {
     }
   );
   const uomData = await response.json();
-  // console.log(uomData.uom);
   uomData.uom.map((uom) => {
     const option = document.createElement("option");
     option.value = uom.id;
@@ -316,9 +312,7 @@ async function handleAssignClick(data) {
   initSubKpiMode();
 }
 
-function handleDownloadClick(data) {
-  // console.log(data);
-}
+function handleDownloadClick(data) {}
 
 // Fetch master KPIs with sub-kpis and populate selectors
 async function loadMasterAndSubKpiSelectors() {
@@ -423,7 +417,7 @@ async function handleDeleteKpiClick(kpi_id) {
   const form = new FormData();
   form.append("kpi_id", kpi_id);
   form.append("token", tok);
-  console.log("Deleting KPI with ID:", kpi_id); // Debug: Log the kpi_id
+  console.log("Deleting KPI:", kpi_id);
 
   try {
     const response = await fetch(
@@ -435,7 +429,7 @@ async function handleDeleteKpiClick(kpi_id) {
     );
 
     const result = await response.json();
-    console.log("Delete API response:", result); // Debug: Log the API response
+    console.log("Delete KPI response:", result);
     if (result.errflag === 0) {
       alert(result.message);
       const modal = bootstrap.Modal.getInstance(
@@ -462,7 +456,10 @@ async function handleKpiNUmberModal(data) {
     { method: "GET" }
   );
   const kpiData = await response.json();
-  console.log("Fetched KPI List:", kpiData);
+  console.log(
+    "Fetched KPI list count:",
+    (kpiData.department_kpis || []).length
+  );
 
   const tableBody = document.querySelector(".modal-kpiNumber-body");
   tableBody.innerHTML = "";
@@ -473,7 +470,7 @@ async function handleKpiNUmberModal(data) {
   }
 
   kpiData.department_kpis.forEach((kpi, index) => {
-    console.log("KPI Object:", kpi); // Debug: Log each KPI to check field names
+    // building KPI row
     const kpiDiv = document.createElement("div");
     kpiDiv.className = "kpiModelBody";
     kpiDiv.style.display = "flex";
@@ -507,7 +504,7 @@ document.addEventListener("DOMContentLoaded", function () {
   if (typeof agGrid === "undefined") {
     console.error("AG Grid not loaded");
   } else {
-    console.log("AG Grid version:", agGrid.version); // Should log "31.0.0"
+    console.log("AG Grid ready version:", agGrid.version);
   }
   const tok = localStorage.getItem("authToken");
   if (tok) {
@@ -539,15 +536,13 @@ document.addEventListener("DOMContentLoaded", function () {
       function populateEditForm(attempts = 10, delay = 200) {
         const editKpiNameEl = editKpiModalEl.querySelector("#editKpiName");
         if (!editKpiNameEl && attempts > 0) {
-          console.log(
-            `editKpiName not found, retrying (${attempts} attempts left)`
-          );
+          // retry until element renders
           setTimeout(() => populateEditForm(attempts - 1, delay), delay);
           return;
         }
         if (!editKpiNameEl) {
           console.error("Failed to find editKpiName after retries");
-          console.log("Modal innerHTML:", editKpiModalEl.innerHTML);
+          console.warn("editKpiName not found in modal after retries");
           return;
         }
 
@@ -625,6 +620,36 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
+  // Reset sub-KPI modal state on close
+  const assignModalEl = document.getElementById("assignModal");
+  if (assignModalEl) {
+    assignModalEl.addEventListener("hidden.bs.modal", () => {
+      const enableCheckbox = document.getElementById("enableSubKpiMode");
+      if (enableCheckbox) enableCheckbox.checked = false;
+      // Reset mode and UI
+      try {
+        subKpiDrafts = [];
+        currentSubIndex = 0;
+        subModeEnabled = false;
+      } catch (_) {}
+      const nameGroup = document.getElementById("subKpiNameGroup");
+      const nav = document.getElementById("subKpiNav");
+      const saveBtn = document.getElementById("saveSubKpiBtn");
+      const closeBtn = document.getElementById("closeSubKpiBtn");
+      const assignSave = document.getElementById("assignSaveBtn");
+      const subSelect = document.getElementById("subKpiSelect");
+      if (nameGroup) nameGroup.style.display = "none";
+      if (nav) nav.style.display = "none";
+      if (saveBtn) saveBtn.style.display = "none";
+      if (closeBtn) closeBtn.style.display = "none";
+      if (assignSave) assignSave.style.display = "inline-block";
+      if (subSelect) {
+        const group = subSelect.closest(".mb-3");
+        if (group) group.style.display = "block";
+      }
+    });
+  }
+
   // Edit button event listener
   // Edit button event listener
   const editButton = document.getElementById("kpiEditButton");
@@ -645,7 +670,7 @@ document.addEventListener("DOMContentLoaded", function () {
         t4: document.getElementById("editTarget4")?.value || "",
         t5: document.getElementById("editTarget5")?.value || "",
       };
-      console.log("Updating KPI with data:", updatedData);
+      console.log("Updating KPI id", updatedData.id);
       updateKpiDetails(updatedData);
     });
   }
@@ -730,8 +755,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Modify the saveChanges function to include remarks fields
   async function saveChanges(id, rowId) {
-    console.log("=== SAVE CHANGES STARTED ===");
-    console.log("ID:", id);
+    console.log("Saving KPI changes for", id);
     console.log("Row Data:", rowId);
 
     const leftSectionInputs = document
@@ -828,18 +852,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // Add this to the handleDepartment function to populate remarks fields
-  function handleModalDisplay(rowId) {
-    // ... existing code ...
-
-    // Populate remarks fields if available
-    document.getElementById("y1remarks").value = rowId.y1remarks || "";
-    document.getElementById("y2remarks").value = rowId.y2remarks || "";
-    document.getElementById("y3remarks").value = rowId.y3remarks || "";
-    document.getElementById("y4remarks").value = rowId.y4remarks || "";
-    document.getElementById("y5remarks").value = rowId.y5remarks || "";
-  }
-
   // Function to show edit buttons for both target and notes fields
   function showEditButtons() {
     // For each year 1-5
@@ -858,15 +870,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // Update the function that displays the KPI details to call this function
-  function handleModalDisplay(rowId) {
-    // ... existing code ...
-
-    // Show edit buttons for all fields
-    showEditButtons();
-
-    // ... rest of existing code ...
-  }
+  // handleModalDisplay duplicate removed (use populateModalFields + showEditButtons instead)
 });
 
 async function updateKpiDetails(data) {
@@ -967,6 +971,7 @@ function initSubKpiMode() {
   const saveBtn = document.getElementById("saveSubKpiBtn");
   const closeBtn = document.getElementById("closeSubKpiBtn");
   const assignSave = document.getElementById("assignSaveBtn");
+  const subSelect = document.getElementById("subKpiSelect");
 
   if (!enableCheckbox || !nameGroup || !nav || !saveBtn || !closeBtn) return;
 
@@ -989,11 +994,17 @@ function initSubKpiMode() {
       saveBtn.style.display = "inline-block";
       closeBtn.style.display = "inline-block";
       assignSave.style.display = "none"; // hide normal save
+      // Hide existing sub-kpi multi-select group to reduce confusion
+      if (subSelect) {
+        const group = subSelect.closest(".mb-3");
+        if (group) group.style.display = "none";
+      }
       // Ensure at least one draft exists
       if (subKpiDrafts.length === 0) {
         subKpiDrafts.push(createEmptySubDraft());
       }
       loadSubDraftIntoForm();
+      updateSubNavState();
     } else {
       // Exit sub KPI mode
       nameGroup.style.display = "none";
@@ -1001,6 +1012,11 @@ function initSubKpiMode() {
       saveBtn.style.display = "none";
       closeBtn.style.display = "none";
       assignSave.style.display = "inline-block";
+      // Show sub-kpi multi-select group back
+      if (subSelect) {
+        const group = subSelect.closest(".mb-3");
+        if (group) group.style.display = "block";
+      }
     }
   };
 
@@ -1009,6 +1025,7 @@ function initSubKpiMode() {
       saveCurrentSubDraftFromForm();
       currentSubIndex--;
       loadSubDraftIntoForm();
+      updateSubNavState();
     }
   };
   document.getElementById("nextSubKpiBtn").onclick = () => {
@@ -1022,6 +1039,7 @@ function initSubKpiMode() {
       currentSubIndex++;
       loadSubDraftIntoForm();
     }
+    updateSubNavState();
   };
 
   saveBtn.onclick = async () => {
@@ -1032,6 +1050,12 @@ function initSubKpiMode() {
       alert("Sub KPI name is required");
       return;
     }
+    // Require a Master KPI selection when in Sub KPI mode
+    const masterValReq = document.getElementById("masterKpiSelect")?.value;
+    if (!masterValReq) {
+      alert("Please select a Master KPI to attach this Sub KPI.");
+      return;
+    }
     try {
       await saveSingleSubKpiDraft(draft, deptId);
       alert("Sub KPI saved");
@@ -1040,6 +1064,13 @@ function initSubKpiMode() {
       alert("Failed to save sub KPI");
     }
   };
+}
+
+function updateSubNavState() {
+  const prevBtn = document.getElementById("prevSubKpiBtn");
+  if (prevBtn) {
+    prevBtn.disabled = currentSubIndex === 0;
+  }
 }
 
 function createEmptySubDraft() {
@@ -1114,7 +1145,9 @@ async function saveSingleSubKpiDraft(draft, deptId) {
   // Need a sub_kpi_id: create sub KPI first via /sub_kpi/add using master KPI concept? If masterKpiSelect chosen we can attach; else we treat each as standalone under same KPI name.
   // If we have a masterKpiSelect value we attempt to create sub KPI row.
   const masterVal = document.getElementById("masterKpiSelect")?.value;
-  if (masterVal) {
+  if (!masterVal) {
+    throw new Error("Master KPI is required in Sub KPI mode");
+  } else {
     // Create sub KPI (name = draft.name) then use returned id.
     const subForm = new FormData();
     subForm.append("name", draft.name);
@@ -1125,8 +1158,10 @@ async function saveSingleSubKpiDraft(draft, deptId) {
       { method: "POST", body: subForm }
     );
     const subResult = await subResp.json();
-    if (subResult.errflag === 0) {
-      // If API doesn't return the id, fetch the list and resolve by name under same master
+    if (subResult.errflag === 0 && subResult.sub_kpi_id) {
+      form.append("sub_kpi_id", subResult.sub_kpi_id);
+    } else if (subResult.errflag === 0) {
+      // Fallback: resolve by fetching catalog (older backend)
       try {
         const listResp = await fetch(
           `https://ksapccmonitoring.in/kpi_app/kpi/all_with_subkpis/${tok}`
@@ -1151,8 +1186,6 @@ async function saveSingleSubKpiDraft(draft, deptId) {
     } else {
       console.warn("Failed to create sub KPI", subResult.message);
     }
-  } else {
-    // Without master KPI, we can't create a sub_kpi entry unless API supports loose sub KPIs; skip attaching sub_kpi_id.
   }
 
   const resp = await fetch(
@@ -1299,13 +1332,18 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   // Add event listeners for editable fields
-  document.getElementById("strategies").addEventListener("click", function () {
-    toggleEditable("strategies");
-  });
-
-  document.getElementById("deparment").addEventListener("click", function () {
-    toggleEditable("deparment");
-  });
+  const strategiesEl = document.getElementById("strategies");
+  if (strategiesEl) {
+    strategiesEl.addEventListener("click", function () {
+      toggleEditable("strategies");
+    });
+  }
+  const deptEl = document.getElementById("deparment");
+  if (deptEl) {
+    deptEl.addEventListener("click", function () {
+      toggleEditable("deparment");
+    });
+  }
 });
 
 // Toggle field editable state
