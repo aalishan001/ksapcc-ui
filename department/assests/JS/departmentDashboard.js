@@ -570,7 +570,14 @@ function showkpi(data) {
 
   kpis.forEach((kpi, index) => {
     const trendMeta = getKpiTrendMeta(kpi?.percentage_changes);
-    const title = escapeHtml(kpi?.kpis || `KPI ${index + 1}`);
+    const baseTitle = escapeHtml(kpi?.kpis || `KPI ${index + 1}`);
+    const subName = kpi?.sub_kpi_name ? escapeHtml(kpi.sub_kpi_name) : "";
+    const subId = kpi?.sub_kpi_id ? escapeHtml(String(kpi.sub_kpi_id)) : "";
+    const subLabel =
+      subName || subId
+        ? ` <span class="kpi-card__sub">Sub-KPI • ${subName || subId}</span>`
+        : "";
+    const title = `${baseTitle}${subLabel}`;
     const updatedOn = formatUpdatedAt(kpi?.updated_at);
     const updateMessage =
       updatedOn === "—" ? "No updates yet" : `Updated ${updatedOn}`;
@@ -585,7 +592,7 @@ function showkpi(data) {
           ${escapeHtml(trendMeta.label)}
         </span>
       </div>
-      <h3 class="kpi-card__title">${title}</h3>
+  <h3 class="kpi-card__title">${title}</h3>
       <div class="kpi-card__footer">
         <span class="kpi-card__update"><i class="bi bi-clock-history"></i> ${escapeHtml(
           updateMessage
