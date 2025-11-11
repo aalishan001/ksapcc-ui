@@ -65,7 +65,7 @@ const gridOptions = {
     {
       field: "dept_name",
       headerName: "DEPARTMENT NAME",
-    //   maxWidth: 700,
+      //   maxWidth: 700,
       cellRenderer: (params) => {
         let data = JSON.stringify(params.data).replace(/"/g, "&quot;");
         let name = params.data.dept_name;
@@ -323,18 +323,21 @@ async function loadMasterAndSubKpiSelectors() {
   const subSelect = document.getElementById("subKpiSelect");
   if (!masterSelect || !subSelect) return; // selectors not present
 
-  masterSelect.innerHTML = '<option value="">Select Master KPI (optional)</option>';
+  masterSelect.innerHTML =
+    '<option value="">Select Master KPI (optional)</option>';
   subSelect.innerHTML = '<option value="">Select Sub KPI (optional)</option>';
 
   try {
-    const resp = await fetch(`https://ksapccmonitoring.in/kpi_app/kpi/all_with_subkpis/${tok}`);
+    const resp = await fetch(
+      `https://ksapccmonitoring.in/kpi_app/kpi/all_with_subkpis/${tok}`
+    );
     const data = await resp.json();
     if (data.errflag !== 0 || !Array.isArray(data.kpis)) {
       console.warn("Failed to load master/sub-kpis", data.message);
       return;
     }
     const mapping = {};
-    data.kpis.forEach(k => {
+    data.kpis.forEach((k) => {
       const opt = document.createElement("option");
       opt.value = k.kpi_id;
       opt.textContent = k.kpi_name;
@@ -343,9 +346,10 @@ async function loadMasterAndSubKpiSelectors() {
     });
     masterSelect.onchange = () => {
       const mid = masterSelect.value;
-      subSelect.innerHTML = '<option value="">Select Sub KPI (optional)</option>';
-      if(!mid || !mapping[mid] || mapping[mid].length === 0) return;
-      mapping[mid].forEach(sk => {
+      subSelect.innerHTML =
+        '<option value="">Select Sub KPI (optional)</option>';
+      if (!mid || !mapping[mid] || mapping[mid].length === 0) return;
+      mapping[mid].forEach((sk) => {
         const so = document.createElement("option");
         so.value = sk.id;
         so.textContent = sk.name;
@@ -596,7 +600,11 @@ document.addEventListener("DOMContentLoaded", function () {
       const target1 = document.querySelector("#target1").value;
       // Gather selected sub-kpis (multiple allowed)
       const subSelect = document.getElementById("subKpiSelect");
-      const selectedSubIds = subSelect ? Array.from(subSelect.selectedOptions).map(o => o.value).filter(v => v) : [];
+      const selectedSubIds = subSelect
+        ? Array.from(subSelect.selectedOptions)
+            .map((o) => o.value)
+            .filter((v) => v)
+        : [];
       const data = {
         KPIName,
         unitOfMeasurement,
@@ -608,7 +616,7 @@ document.addEventListener("DOMContentLoaded", function () {
           "2-Year": target2,
           "1-Year": target1,
         },
-        sub_kpi_ids: selectedSubIds
+        sub_kpi_ids: selectedSubIds,
       };
       postAssignData(data, deptId);
     });
@@ -931,7 +939,10 @@ async function postAssignData(data, deptId) {
     if (sid) form.append("sub_kpi_id", sid);
     form.append("token", tok);
     try {
-      const resp = await fetch("https://ksapccmonitoring.in/kpi_app/add_department_kpi", { method: "POST", body: form });
+      const resp = await fetch(
+        "https://ksapccmonitoring.in/kpi_app/add_department_kpi",
+        { method: "POST", body: form }
+      );
       const result = await resp.json();
       console.log("Assign KPI result", sid, result);
     } catch (e) {
