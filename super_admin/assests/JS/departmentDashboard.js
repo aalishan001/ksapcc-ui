@@ -311,6 +311,9 @@ async function handleAssignClick(data) {
 
   // Load master/sub-kpi options if selectors exist
   loadMasterAndSubKpiSelectors();
+
+  // Initialize sub-KPI mode controls
+  initSubKpiMode();
 }
 
 function handleDownloadClick(data) {
@@ -950,6 +953,218 @@ async function postAssignData(data, deptId) {
     }
   }
   location.reload();
+}
+
+// --- Sub KPI mode state ---
+let subKpiDrafts = []; // array of { name, t1..t5, baseline, unit, etc }
+let currentSubIndex = 0;
+let subModeEnabled = false;
+
+function initSubKpiMode() {
+  const enableCheckbox = document.getElementById("enableSubKpiMode");
+  const nameGroup = document.getElementById("subKpiNameGroup");
+  const nav = document.getElementById("subKpiNav");
+  const saveBtn = document.getElementById("saveSubKpiBtn");
+  const closeBtn = document.getElementById("closeSubKpiBtn");
+  const assignSave = document.getElementById("assignSaveBtn");
+
+  if (!enableCheckbox || !nameGroup || !nav || !saveBtn || !closeBtn) return;
+
+  // Reset state on modal open
+  subKpiDrafts = [];
+  currentSubIndex = 0;
+  subModeEnabled = false;
+  nameGroup.style.display = "none";
+  nav.style.display = "none";
+  saveBtn.style.display = "none";
+  closeBtn.style.display = "none";
+  assignSave.style.display = "inline-block";
+
+  enableCheckbox.onchange = () => {
+    subModeEnabled = enableCheckbox.checked;
+    if (subModeEnabled) {
+      // Enter sub KPI mode
+      nameGroup.style.display = "block";
+      nav.style.display = "flex";
+      saveBtn.style.display = "inline-block";
+      closeBtn.style.display = "inline-block";
+      assignSave.style.display = "none"; // hide normal save
+      // Ensure at least one draft exists
+      if (subKpiDrafts.length === 0) {
+        subKpiDrafts.push(createEmptySubDraft());
+      }
+      loadSubDraftIntoForm();
+    } else {
+      // Exit sub KPI mode
+      nameGroup.style.display = "none";
+      nav.style.display = "none";
+      saveBtn.style.display = "none";
+      closeBtn.style.display = "none";
+      assignSave.style.display = "inline-block";
+    }
+  };
+
+  document.getElementById("prevSubKpiBtn").onclick = () => {
+    if (currentSubIndex > 0) {
+      saveCurrentSubDraftFromForm();
+      currentSubIndex--;
+      loadSubDraftIntoForm();
+    }
+  };
+  document.getElementById("nextSubKpiBtn").onclick = () => {
+    saveCurrentSubDraftFromForm();
+    if (currentSubIndex === subKpiDrafts.length - 1) {
+      // Add new
+      subKpiDrafts.push(createEmptySubDraft());
+      currentSubIndex = subKpiDrafts.length - 1;
+      clearFormForNewSub();
+    } else {
+      currentSubIndex++;
+      loadSubDraftIntoForm();
+    }
+  };
+
+  saveBtn.onclick = async () => {
+    saveCurrentSubDraftFromForm();
+    const draft = subKpiDrafts[currentSubIndex];
+    // Validate minimal fields
+    if (!draft.name) {
+      alert("Sub KPI name is required");
+      return;
+    }
+    try {
+      await saveSingleSubKpiDraft(draft, deptId);
+      alert("Sub KPI saved");
+    } catch (e) {
+      console.error("Error saving sub KPI", e);
+      alert("Failed to save sub KPI");
+    }
+  };
+}
+
+function createEmptySubDraft() {
+  return {
+    name: "",
+    unit: "",
+    baseline: "",
+    t1: "",
+    t2: "",
+    t3: "",
+    t4: "",
+    t5: "",
+  };
+}
+
+function loadSubDraftIntoForm() {
+  const d = subKpiDrafts[currentSubIndex];
+  document.getElementById("subKpiNameInput").value = d.name;
+  document.getElementById("unitSelector").value = d.unit;
+  document.getElementById("baselineStat").value = d.baseline;
+  document.getElementById("target1").value = d.t1;
+  document.getElementById("target2").value = d.t2;
+  document.getElementById("target3").value = d.t3;
+  document.getElementById("target4").value = d.t4;
+  document.getElementById("target5").value = d.t5;
+}
+
+function saveCurrentSubDraftFromForm() {
+  const d = subKpiDrafts[currentSubIndex];
+  d.name = document.getElementById("subKpiNameInput").value.trim();
+  d.unit = document.getElementById("unitSelector").value;
+  d.baseline = document.getElementById("baselineStat").value.trim();
+  d.t1 = document.getElementById("target1").value.trim();
+  d.t2 = document.getElementById("target2").value.trim();
+  d.t3 = document.getElementById("target3").value.trim();
+  d.t4 = document.getElementById("target4").value.trim();
+  d.t5 = document.getElementById("target5").value.trim();
+}
+
+function clearFormForNewSub() {
+  document.getElementById("subKpiNameInput").value = "";
+  document.getElementById("baselineStat").value = "";
+  document.getElementById("target1").value = "";
+  document.getElementById("target2").value = "";
+  document.getElementById("target3").value = "";
+  document.getElementById("target4").value = "";
+  document.getElementById("target5").value = "";
+}
+
+async function saveSingleSubKpiDraft(draft, deptId) {
+  // Create the master KPI if this is the first draft and KPI name field is filled
+  const kpiNameVal = document.getElementById("KPIName").value.trim();
+  if (!kpiNameVal) {
+    throw new Error("KPI Name required before saving sub KPI");
+  }
+  // For simplicity we create a department_kpi row per sub KPI via existing endpoint
+  const form = new FormData();
+  form.append("department_name_id", deptId);
+  form.append("kpis", kpiNameVal); // master KPI name reused
+  form.append(
+    "uom_master_id",
+    draft.unit || document.getElementById("unitSelector").value
+  );
+  form.append("baseline_Status", draft.baseline);
+  form.append("t1", draft.t1);
+  form.append("t2", draft.t2);
+  form.append("t3", draft.t3);
+  form.append("t4", draft.t4);
+  form.append("t5", draft.t5);
+  form.append("token", tok);
+
+  // Need a sub_kpi_id: create sub KPI first via /sub_kpi/add using master KPI concept? If masterKpiSelect chosen we can attach; else we treat each as standalone under same KPI name.
+  // If we have a masterKpiSelect value we attempt to create sub KPI row.
+  const masterVal = document.getElementById("masterKpiSelect")?.value;
+  if (masterVal) {
+    // Create sub KPI (name = draft.name) then use returned id.
+    const subForm = new FormData();
+    subForm.append("name", draft.name);
+    subForm.append("kpi_id", masterVal);
+    subForm.append("token", tok);
+    const subResp = await fetch(
+      "https://ksapccmonitoring.in/kpi_app/sub_kpi/add",
+      { method: "POST", body: subForm }
+    );
+    const subResult = await subResp.json();
+    if (subResult.errflag === 0) {
+      // If API doesn't return the id, fetch the list and resolve by name under same master
+      try {
+        const listResp = await fetch(
+          `https://ksapccmonitoring.in/kpi_app/kpi/all_with_subkpis/${tok}`
+        );
+        const listData = await listResp.json();
+        if (listData.errflag === 0 && Array.isArray(listData.kpis)) {
+          const master = listData.kpis.find(
+            (k) => String(k.kpi_id) === String(masterVal)
+          );
+          const match = (master?.sub_kpis || []).find(
+            (sk) =>
+              (sk.name || "").trim().toLowerCase() ===
+              draft.name.trim().toLowerCase()
+          );
+          if (match && match.id) {
+            form.append("sub_kpi_id", match.id);
+          }
+        }
+      } catch (e) {
+        console.warn("Could not resolve newly created sub_kpi id", e);
+      }
+    } else {
+      console.warn("Failed to create sub KPI", subResult.message);
+    }
+  } else {
+    // Without master KPI, we can't create a sub_kpi entry unless API supports loose sub KPIs; skip attaching sub_kpi_id.
+  }
+
+  const resp = await fetch(
+    "https://ksapccmonitoring.in/kpi_app/add_department_kpi",
+    { method: "POST", body: form }
+  );
+  const result = await resp.json();
+  if (result.errflag !== 0) {
+    throw new Error(
+      result.message || "Failed to save department KPI with sub KPI"
+    );
+  }
 }
 
 function handlekpinumbermodal(kpi) {
