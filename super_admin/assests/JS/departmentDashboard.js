@@ -1000,14 +1000,127 @@ function initSubKpiMode() {
     }
   };
 
-  document.getElementById("prevSubKpiBtn").onclick = () => {
-    if (currentSubIndex > 0) {
+  const prevBtn = document.getElementById("prevSubKpiBtn");
+  const nextBtn = document.getElementById("nextSubKpiBtn");
+  const saveSubBtn = document.getElementById("saveSubKpiBtn");
+  const closeBtn2 = document.getElementById("closeSubKpiBtn");
+
+  if (prevBtn) {
+    prevBtn.onclick = () => {
+      if (currentSubIndex > 0) {
+        saveCurrentSubDraftFromForm();
+        currentSubIndex--;
+        loadSubDraftIntoForm();
+        updateSubNavState();
+      }
+    };
+  }
+
+  if (nextBtn) {
+    nextBtn.onclick = () => {
       saveCurrentSubDraftFromForm();
-      currentSubIndex--;
+      if (currentSubIndex === subKpiDrafts.length - 1) {
+        // Add a new empty draft at the end
+        subKpiDrafts.push(createEmptySubDraft());
+      }
+      currentSubIndex++;
       loadSubDraftIntoForm();
       updateSubNavState();
-    }
-  };
+    };
+  }
+
+  if (saveSubBtn) {
+    saveSubBtn.onclick = async () => {
+      try {
+        saveCurrentSubDraftFromForm();
+        // Ensure master department_kpi created once
+        const kpiNameVal = document.getElementById("KPIName").value.trim();
+        if (!kpiNameVal) {
+          alert("Enter KPI Name first");
+          return;
+        }
+        if (!masterDeptKpiId) {
+          const masterForm = new FormData();
+          masterForm.append("department_name_id", deptId);
+          masterForm.append("kpis", kpiNameVal);
+          masterForm.append(
+            "uom_master_id",
+            document.getElementById("unitSelector").value
+          );
+          masterForm.append(
+            "baseline_Status",
+            document.getElementById("baselineStat").value
+          );
+          masterForm.append("t1", document.getElementById("target1").value);
+          masterForm.append("t2", document.getElementById("target2").value);
+          masterForm.append("t3", document.getElementById("target3").value);
+          masterForm.append("t4", document.getElementById("target4").value);
+          masterForm.append("t5", document.getElementById("target5").value);
+          masterForm.append("token", tok);
+          const mResp = await fetch(
+            "https://ksapccmonitoring.in/kpi_app/add_department_kpi",
+            { method: "POST", body: masterForm }
+          );
+          const mResult = await mResp.json();
+          if (mResult.errflag !== 0 || !mResult.id) {
+            throw new Error(mResult.message || "Failed to create master KPI");
+          }
+          masterDeptKpiId = mResult.id;
+        }
+        // Create sub_kpi linked to master
+        const d = subKpiDrafts[currentSubIndex];
+        if (!d.name) {
+          alert("Sub KPI Name required");
+          return;
+        }
+        const subForm = new FormData();
+        subForm.append("name", d.name);
+        subForm.append("department_kpi_id", masterDeptKpiId);
+        subForm.append(
+          "uom_master_id",
+          d.unit || document.getElementById("unitSelector").value
+        );
+        if (d.baseline) subForm.append("baseline_Status", d.baseline);
+        if (d.t1) subForm.append("t1", d.t1);
+        if (d.t2) subForm.append("t2", d.t2);
+        if (d.t3) subForm.append("t3", d.t3);
+        if (d.t4) subForm.append("t4", d.t4);
+        if (d.t5) subForm.append("t5", d.t5);
+        subForm.append("token", tok);
+        const subResp = await fetch(
+          "https://ksapccmonitoring.in/kpi_app/sub_kpi/add",
+          { method: "POST", body: subForm }
+        );
+        const subResult = await subResp.json();
+        if (subResult.errflag === 0 && subResult.sub_kpi_id) {
+          d.saved = true;
+          d.sub_kpi_id = subResult.sub_kpi_id;
+          alert("Sub KPI saved");
+        } else {
+          throw new Error(subResult.message || "Failed to save sub KPI");
+        }
+        updateSubNavState();
+      } catch (e) {
+        console.error("Save sub KPI error", e);
+        alert("Error: " + e.message);
+      }
+    };
+  }
+
+  if (closeBtn2) {
+    closeBtn2.onclick = () => {
+      // Reset sub KPI mode to allow normal assign if needed
+      const enableCheckbox = document.getElementById("enableSubKpiMode");
+      if (enableCheckbox) enableCheckbox.checked = false;
+      subModeEnabled = false;
+      document.getElementById("subKpiNameGroup").style.display = "none";
+      document.getElementById("subKpiNav").style.display = "none";
+      document.getElementById("saveSubKpiBtn").style.display = "none";
+      document.getElementById("closeSubKpiBtn").style.display = "none";
+      const assignSave = document.getElementById("assignSaveBtn");
+      if (assignSave) assignSave.style.display = "inline-block";
+    };
+  }
 
   // Ensure saveCurrentSubDraftFromForm is clean
   // (Re-declared here to overwrite any accidental corruptions)
@@ -1023,6 +1136,53 @@ function initSubKpiMode() {
     d.t5 = document.getElementById("target5").value.trim();
   };
   // Close initSubKpiMode
+}
+
+// Helper: create an empty sub-KPI draft
+function createEmptySubDraft() {
+  return {
+    name: "",
+    unit: document.getElementById("unitSelector")?.value || "",
+    baseline: document.getElementById("baselineStat")?.value || "",
+    t1: document.getElementById("target1")?.value || "",
+    t2: document.getElementById("target2")?.value || "",
+    t3: document.getElementById("target3")?.value || "",
+    t4: document.getElementById("target4")?.value || "",
+    t5: document.getElementById("target5")?.value || "",
+    saved: false,
+    sub_kpi_id: null,
+  };
+}
+
+// Helper: load current draft into form inputs
+function loadSubDraftIntoForm() {
+  const d = subKpiDrafts[currentSubIndex] || createEmptySubDraft();
+  const nameInput = document.getElementById("subKpiNameInput");
+  if (nameInput) nameInput.value = d.name || "";
+  const unitSel = document.getElementById("unitSelector");
+  if (unitSel && d.unit) unitSel.value = d.unit;
+  const baselineEl = document.getElementById("baselineStat");
+  if (baselineEl) baselineEl.value = d.baseline || baselineEl.value;
+  const t1 = document.getElementById("target1");
+  const t2 = document.getElementById("target2");
+  const t3 = document.getElementById("target3");
+  const t4 = document.getElementById("target4");
+  const t5 = document.getElementById("target5");
+  if (t1 && d.t1 !== undefined) t1.value = d.t1;
+  if (t2 && d.t2 !== undefined) t2.value = d.t2;
+  if (t3 && d.t3 !== undefined) t3.value = d.t3;
+  if (t4 && d.t4 !== undefined) t4.value = d.t4;
+  if (t5 && d.t5 !== undefined) t5.value = d.t5;
+}
+
+// Helper: update navigation buttons state
+function updateSubNavState() {
+  const prevBtn = document.getElementById("prevSubKpiBtn");
+  const nextBtn = document.getElementById("nextSubKpiBtn");
+  if (prevBtn) prevBtn.disabled = currentSubIndex === 0;
+  if (nextBtn)
+    nextBtn.textContent =
+      currentSubIndex === subKpiDrafts.length - 1 ? "Add Next" : "Next";
 }
 
 function handlekpinumbermodal(kpi) {
