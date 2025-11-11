@@ -1161,6 +1161,17 @@ async function saveSingleSubKpiDraft(draft, deptId) {
   subForm.append("name", draft.name);
   subForm.append("kpi_id", masterId);
   subForm.append("token", tok);
+  // pass extended fields when creating sub_kpi so they are persisted centrally
+  subForm.append(
+    "uom_master_id",
+    draft.unit || document.getElementById("unitSelector").value
+  );
+  if (draft.baseline) subForm.append("baseline_Status", draft.baseline);
+  if (draft.t1) subForm.append("t1", draft.t1);
+  if (draft.t2) subForm.append("t2", draft.t2);
+  if (draft.t3) subForm.append("t3", draft.t3);
+  if (draft.t4) subForm.append("t4", draft.t4);
+  if (draft.t5) subForm.append("t5", draft.t5);
   const subResp = await fetch(
     "https://ksapccmonitoring.in/kpi_app/sub_kpi/add",
     { method: "POST", body: subForm }
