@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Masters Management</title>
-    <link rel="icon" href="./assests/img/green_logo.svg" type="image/png">
+    <link rel="icon" href="./assests/img/green_logo.svg" type="image/png" />
     <link rel="stylesheet" href="./assests/Style/master.css" />
     <link rel="stylesheet" href="./assests/Style/adminNav.css" />
     <link
@@ -335,6 +335,26 @@
             <div class="mb-3">
               <label for="KPIName" class="form-label">KPI Name</label>
               <input class="form-control" id="KPIName" value="" />
+            </div>
+            <div class="mb-3">
+              <label for="masterKpiSelect" class="form-label"
+                >Master KPI (optional)</label
+              >
+              <select id="masterKpiSelect" class="form-select"></select>
+              <small class="text-muted"
+                >Select an existing master KPI to attach a sub-KPI. Leave blank
+                to create a standalone KPI.</small
+              >
+            </div>
+            <div class="mb-3">
+              <label for="subKpiSelect" class="form-label"
+                >Sub KPI (optional)</label
+              >
+              <select id="subKpiSelect" class="form-select" multiple></select>
+              <small class="text-muted"
+                >Pick one or more sub-KPIs under the selected master KPI. If
+                none selected, the KPI will remain without sub-kpis.</small
+              >
             </div>
             <div class="mb-3">
               <label for="unitSelector" class="form-label"

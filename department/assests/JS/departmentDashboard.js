@@ -20,12 +20,14 @@ const gridOptions = {
       cellRenderer: (params) => {
         const name = escapeHtml(params.data?.kpis || "Untitled KPI");
         const date = formatUpdatedAt(params.data?.updated_at);
+        const subName = params.data?.sub_kpi_name || "";
         const subId = params.data?.sub_kpi_id;
-        const subLine = subId
-          ? `<span class="grid-chip grid-chip--subkpi" title="Sub-KPI ID: ${escapeHtml(
-              String(subId)
-            )}">Sub-KPI • ${escapeHtml(String(subId))}</span>`
-          : "";
+        const subLine =
+          subName || subId
+            ? `<span class="grid-chip grid-chip--subkpi" title="Sub-KPI: ${escapeHtml(
+                subName || String(subId)
+              )}">Sub-KPI • ${escapeHtml(subName || String(subId))}</span>`
+            : "";
         return `
           <div class="grid-primary-cell grid-primary-cell--compact" title="${name}">
             <span class="grid-primary-title" title="${name}">${name}</span>
@@ -685,7 +687,12 @@ function populateUpdateModal(context) {
   const strategiesEl = document.getElementById("modalStrategies");
   const headerTitleEl = document.getElementById("exampleModalLabel");
 
-  const modalTitle = sanitizeText(row.kpis) || "—";
+  let modalTitle = sanitizeText(row.kpis) || "—";
+  if (row.sub_kpi_name) {
+    modalTitle += ` – ${sanitizeText(row.sub_kpi_name)}`;
+  } else if (row.sub_kpi_id) {
+    modalTitle += ` – Sub-KPI ${sanitizeText(String(row.sub_kpi_id))}`;
+  }
 
   if (titleEl) {
     titleEl.textContent = modalTitle;

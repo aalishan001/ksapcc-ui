@@ -477,7 +477,12 @@ function handleSaveKpi() {
   const target2 = document.getElementById("target2").value;
   const target1 = document.getElementById("target1").value;
   const subKpiSelect = document.getElementById("subKpiSelect");
-  const sub_kpi_id = subKpiSelect ? subKpiSelect.value : "";
+  // Allow selecting multiple sub-kpis; save one record per selected sub-kpi for clarity
+  const selectedSubIds = subKpiSelect
+    ? Array.from(subKpiSelect.selectedOptions)
+        .map((o) => o.value)
+        .filter(Boolean)
+    : [];
 
   if (!KPIName || !unitOfMeasurement || !baselineStat) {
     alert("Please fill in all required KPI fields");
@@ -496,12 +501,14 @@ function handleSaveKpi() {
     t5: target5 || 0,
   };
 
-  if (sub_kpi_id) {
-    kpiData.sub_kpi_id = sub_kpi_id;
+  // If multiple sub-kpis are selected, push one KPI entry per sub-kpi; else push a single KPI without sub-kpi
+  if (selectedSubIds.length > 0) {
+    selectedSubIds.forEach((sid) => {
+      tempKpiDataArray.push({ ...kpiData, sub_kpi_id: sid });
+    });
+  } else {
+    tempKpiDataArray.push(kpiData);
   }
-
-  // Add to array instead of replacing
-  tempKpiDataArray.push(kpiData);
 
   console.log("KPI data added to array:", kpiData);
   console.log("Total KPIs saved:", tempKpiDataArray.length);
