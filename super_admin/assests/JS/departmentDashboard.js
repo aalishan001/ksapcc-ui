@@ -314,47 +314,25 @@ async function handleAssignClick(data) {
 
 function handleDownloadClick(data) {}
 
-// Fetch master KPIs with sub-kpis and populate selectors
+// Optionally populate sub-KPI multi-select if present (master select removed by design)
 async function loadMasterAndSubKpiSelectors() {
-  const masterSelect = document.getElementById("masterKpiSelect");
   const subSelect = document.getElementById("subKpiSelect");
-  if (!masterSelect || !subSelect) return; // selectors not present
-
-  masterSelect.innerHTML =
-    '<option value="">Select Master KPI (optional)</option>';
+  if (!subSelect) return; // selector not present in current template
   subSelect.innerHTML = '<option value="">Select Sub KPI (optional)</option>';
-
   try {
     const resp = await fetch(
-      `https://ksapccmonitoring.in/kpi_app/kpi/all_with_subkpis/${tok}`
+      `https://ksapccmonitoring.in/kpi_app/sub_kpi/all/${tok}`
     );
     const data = await resp.json();
-    if (data.errflag !== 0 || !Array.isArray(data.kpis)) {
-      console.warn("Failed to load master/sub-kpis", data.message);
-      return;
-    }
-    const mapping = {};
-    data.kpis.forEach((k) => {
-      const opt = document.createElement("option");
-      opt.value = k.kpi_id;
-      opt.textContent = k.kpi_name;
-      masterSelect.appendChild(opt);
-      mapping[k.kpi_id] = k.sub_kpis || [];
+    if (data.errflag !== 0 || !Array.isArray(data.kpis)) return;
+    data.kpis.forEach((sk) => {
+      const so = document.createElement("option");
+      so.value = sk.id;
+      so.textContent = sk.name;
+      subSelect.appendChild(so);
     });
-    masterSelect.onchange = () => {
-      const mid = masterSelect.value;
-      subSelect.innerHTML =
-        '<option value="">Select Sub KPI (optional)</option>';
-      if (!mid || !mapping[mid] || mapping[mid].length === 0) return;
-      mapping[mid].forEach((sk) => {
-        const so = document.createElement("option");
-        so.value = sk.id;
-        so.textContent = sk.name;
-        subSelect.appendChild(so);
-      });
-    };
   } catch (e) {
-    console.error("Error loading master/sub-kpis", e);
+    console.error("Error loading sub-kpis", e);
   }
 }
 
@@ -1050,12 +1028,6 @@ function initSubKpiMode() {
       alert("Sub KPI name is required");
       return;
     }
-    // Require a Master KPI selection when in Sub KPI mode
-    const masterValReq = document.getElementById("masterKpiSelect")?.value;
-    if (!masterValReq) {
-      alert("Please select a Master KPI to attach this Sub KPI.");
-      return;
-    }
     try {
       await saveSingleSubKpiDraft(draft, deptId);
       alert("Sub KPI saved");
@@ -1120,6 +1092,45 @@ function clearFormForNewSub() {
   document.getElementById("target5").value = "";
 }
 
+async function ensureMasterKpiIdFromName(kpiName) {
+  // find existing master KPI id by name, else create then fetch id
+  const listResp = await fetch(
+    `https://ksapccmonitoring.in/kpi_app/kpi/all/${tok}`
+  );
+  const listData = await listResp.json();
+  if (listData.errflag === 0 && Array.isArray(listData.kpis)) {
+    const found = listData.kpis.find(
+      (k) =>
+        (k.kpi_name || "").trim().toLowerCase() === kpiName.trim().toLowerCase()
+    );
+    if (found && found.kpi_id) return found.kpi_id;
+  }
+  // create if not found
+  const addForm = new FormData();
+  addForm.append("name", kpiName);
+  addForm.append("token", tok);
+  const addResp = await fetch("https://ksapccmonitoring.in/kpi_app/kpi/add", {
+    method: "POST",
+    body: addForm,
+  });
+  const addResult = await addResp.json();
+  if (addResult.errflag !== 0)
+    throw new Error(addResult.message || "Failed to add master KPI");
+  // fetch again to get id
+  const listResp2 = await fetch(
+    `https://ksapccmonitoring.in/kpi_app/kpi/all/${tok}`
+  );
+  const listData2 = await listResp2.json();
+  if (listData2.errflag === 0 && Array.isArray(listData2.kpis)) {
+    const found2 = listData2.kpis.find(
+      (k) =>
+        (k.kpi_name || "").trim().toLowerCase() === kpiName.trim().toLowerCase()
+    );
+    if (found2 && found2.kpi_id) return found2.kpi_id;
+  }
+  throw new Error("Unable to resolve master KPI id for name: " + kpiName);
+}
+
 async function saveSingleSubKpiDraft(draft, deptId) {
   // Create the master KPI if this is the first draft and KPI name field is filled
   const kpiNameVal = document.getElementById("KPIName").value.trim();
@@ -1142,16 +1153,13 @@ async function saveSingleSubKpiDraft(draft, deptId) {
   form.append("t5", draft.t5);
   form.append("token", tok);
 
-  // Need a sub_kpi_id: create sub KPI first via /sub_kpi/add (Master KPI is mandatory in sub mode)
-  const masterVal = document.getElementById("masterKpiSelect")?.value;
-  if (!masterVal) {
-    throw new Error("Master KPI is required in Sub KPI mode");
-  }
+  // Need a sub_kpi_id: create or resolve Master KPI from KPI Name, then add sub KPI
+  const masterId = await ensureMasterKpiIdFromName(kpiNameVal);
 
   let createdSubId = null;
   const subForm = new FormData();
   subForm.append("name", draft.name);
-  subForm.append("kpi_id", masterVal);
+  subForm.append("kpi_id", masterId);
   subForm.append("token", tok);
   const subResp = await fetch(
     "https://ksapccmonitoring.in/kpi_app/sub_kpi/add",
