@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Gallery - KSAPCC | Govt. of Karnataka</title>
-    <link rel="icon" href="./assests/img/green_logo.svg" type="image/png">
+    <link rel="icon" href="./assests/img/green_logo.svg" type="image/png" />
     <link rel="stylesheet" href="./assests/style/landingPage.css" />
     <link
       href="https://fonts.googleapis.com/css?family=Public Sans"
@@ -12,149 +12,233 @@
     />
     <style>
       .gallery-section {
-        margin-top: 120px;
-        padding: 40px;
+        margin-top: 40px;
+        padding: 40px 24px 16px;
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: center;
+        background-color: #ffffff;
       }
 
       .gallery-header {
         text-align: center;
-        margin-bottom: 40px;
-        max-width: 60vw;
+        margin-bottom: 48px;
+        max-width: 720px;
       }
 
       .gallery-header h1 {
         font-family: "Public Sans", sans-serif;
-        font-weight: 800;
-        font-size: 40px;
-        line-height: 2.5vw;
-        color: #5fa777;
-        margin-bottom: 20px;
+        font-weight: 900;
+        font-size: 44px;
+        letter-spacing: -0.035em;
+        text-transform: uppercase;
+        line-height: 1.1;
+        color: #0f3a26;
+        margin-bottom: 14px;
       }
 
       .gallery-header h1 span {
-        color: #13131a;
-        font-weight: 400;
+        display: block;
+        font-weight: 500;
+        letter-spacing: 0.18em;
+        font-size: 14px;
+        text-transform: uppercase;
+        color: rgba(15, 58, 38, 0.76);
+        margin-bottom: 6px;
       }
 
       .gallery-header p {
         font-family: "Public Sans", sans-serif;
-        font-weight: 300;
-        font-size: 16px;
-        color: #525252;
+        font-weight: 400;
+        font-size: 18px;
+        color: #1f2c26;
+        line-height: 1.75;
+        letter-spacing: 0.01em;
+      }
+
+      .gallery-layout {
+        width: 100%;
+        max-width: 1200px;
+        display: flex;
+        gap: 32px;
+        align-items: stretch;
+      }
+
+      .event-panel {
+        flex: 0 0 280px;
+        background: #f7fff9;
+        border: 1px solid #dcffe8;
+        border-radius: 28px;
+        padding: 28px;
+        box-shadow: 0 30px 60px rgba(22, 93, 60, 0.08);
+        position: sticky;
+        top: 120px;
+        align-self: flex-start;
+      }
+
+      .event-panel h2 {
+        font-family: "Public Sans", sans-serif;
+        font-size: 20px;
+        font-weight: 700;
+        color: #1e3b2f;
+        margin-bottom: 8px;
+      }
+
+      .event-panel p {
+        font-family: "Public Sans", sans-serif;
+        font-size: 14px;
+        color: #5b6f65;
+        margin-bottom: 24px;
         line-height: 1.5;
       }
 
-      .gallery-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-        gap: 30px;
+      .event-list {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .event-tab {
         width: 100%;
-        max-width: 1200px;
-        margin-top: 40px;
-      }
-
-      .gallery-item {
-        background-color: #f3fff7;
-        border: 1px solid #dcffe8;
-        border-radius: 20px;
-        overflow: hidden;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-      }
-
-      .gallery-item:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-      }
-
-      .gallery-item img {
-        width: 100%;
-        height: 250px;
-        object-fit: cover;
-        border-radius: 20px 20px 0 0;
-      }
-
-      .gallery-item-content {
-        padding: 20px;
-      }
-
-      .gallery-item-content h3 {
+        border: 1px solid #d7f1e1;
+        background: #ffffff;
+        color: #223c30;
         font-family: "Public Sans", sans-serif;
+        font-size: 15px;
         font-weight: 600;
-        font-size: 18px;
-        color: #333333;
+        text-align: left;
+        padding: 14px 16px;
+        border-radius: 16px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .event-tab:hover {
+        border-color: #5fa777;
+        color: #5fa777;
+      }
+
+      .event-tab.active {
+        background: linear-gradient(135deg, #5fa777, #88c792);
+        color: #ffffff;
+        border-color: transparent;
+        box-shadow: 0 18px 40px rgba(95, 167, 119, 0.35);
+      }
+
+      .event-display {
+        flex: 1;
+        background: #fbfffc;
+        border: 1px solid #e6f5eb;
+        border-radius: 32px;
+        padding: 32px;
+        box-shadow: 0 35px 70px rgba(30, 59, 47, 0.12);
+      }
+
+      .event-copy .eyebrow {
+        font-size: 13px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: #7aa98e;
+        margin-bottom: 8px;
+        font-weight: 600;
+      }
+
+      .event-copy h3 {
+        font-family: "Public Sans", sans-serif;
+        font-size: 32px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: -0.02em;
+        color: #0c2f1e;
         margin-bottom: 10px;
       }
 
-      .gallery-item-content p {
+      .event-copy p {
         font-family: "Public Sans", sans-serif;
+        font-size: 17px;
         font-weight: 400;
-        font-size: 14px;
-        color: #6e6e73;
-        line-height: 1.4;
+        color: #1f3125;
+        line-height: 1.7;
+        letter-spacing: 0.01em;
       }
 
-      @media (max-width: 1024px) {
-        .gallery-section {
-          margin-top: 110px;
-          padding: 32px;
+      .photo-grid {
+        margin-top: 28px;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 20px;
+      }
+
+      .photo-card {
+        background: #ffffff;
+        border-radius: 18px;
+        overflow: hidden;
+        border: 1px solid #eef4ef;
+        box-shadow: 0 16px 40px rgba(18, 53, 37, 0.12);
+        transform: translateY(16px);
+        opacity: 0;
+        animation: fadeUp 0.6s ease forwards;
+      }
+
+      .photo-card img {
+        width: 100%;
+        height: 220px;
+        object-fit: cover;
+        display: block;
+        transition: transform 0.4s ease;
+      }
+
+      .photo-card:hover img {
+        transform: scale(1.04);
+      }
+
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(24px);
         }
-        .gallery-header {
-          max-width: 80vw;
+        to {
+          opacity: 1;
+          transform: translateY(0);
         }
-        .gallery-header h1 {
-          font-size: 34px;
-          line-height: 1.3;
+      }
+
+      @media (max-width: 1100px) {
+        .gallery-layout {
+          flex-direction: column;
         }
-        .gallery-grid {
-          gap: 24px;
+        .event-panel {
+          position: static;
+          width: 100%;
         }
       }
 
       @media (max-width: 768px) {
         .gallery-section {
-          margin-top: 96px;
-          padding: 24px 20px 60px;
-        }
-        .gallery-header {
-          max-width: 90vw;
+          margin-top: 56px;
+          padding: 32px 16px 40px;
         }
         .gallery-header h1 {
-          font-size: 28px;
+          font-size: 32px;
         }
-        .gallery-header p {
-          font-size: 15px;
+        .event-display {
+          padding: 24px;
         }
-        .gallery-grid {
-          grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-          gap: 20px;
-        }
-        .gallery-item img {
-          height: 220px;
+        .event-copy h3 {
+          font-size: 26px;
         }
       }
 
       @media (max-width: 576px) {
         .gallery-section {
-          margin-top: 80px;
-          padding: 20px 16px 50px;
+          margin-top: 48px;
+          padding: 28px 14px 36px;
         }
-        .gallery-header h1 {
-          font-size: 24px;
-          line-height: 1.25;
+        .event-copy h3 {
+          font-size: 22px;
         }
-        .gallery-header p {
-          font-size: 14px;
-        }
-        .gallery-grid {
-          grid-template-columns: 1fr;
-          gap: 18px;
-        }
-        .gallery-item img {
-          height: 200px;
+        .photo-card img {
+          height: 190px;
         }
       }
     </style>
@@ -214,115 +298,42 @@
       <div class="gallery-header">
         <h1><span>Capturing Moments of</span> Climate Action</h1>
         <p>
-          Explore our collection of events, meetings, and initiatives that
-          showcase Karnataka's commitment to climate change action. These images
-          capture the collaborative efforts, training sessions, stakeholder
-          engagements, and progress milestones that define our journey toward a
-          sustainable and resilient future. From capacity-building workshops to
-          partnership agreements, every moment represents a step forward in
-          implementing the Karnataka State Action Plan on Climate Change.
+          Explore the signature convenings that keep Karnataka's climate agenda
+          moving. Browse every stakeholder meet, workshop, and training session
+          to relive the collaboration, learning, and partnerships powering
+          KSAPCC delivery.
         </p>
       </div>
 
-      <div class="gallery-grid">
-        <div class="gallery-item">
-          <img
-            src="./assests/img/gallery/image1.jpg"
-            alt="KSAPCC Stakeholder Meeting"
-          />
-          <div class="gallery-item-content">
-            <h3>KSAPCC Stakeholder Meeting</h3>
-            <p>
-              Strategic planning session with government officials and
-              environmental experts to discuss climate action implementation
-              across Karnataka.
-            </p>
-          </div>
-        </div>
+      <div class="gallery-layout">
+        <aside class="event-panel">
+          <h2>Event Library</h2>
+          <p>
+            Flip through milestone engagements and trainings from across the
+            state.
+          </p>
+          <div
+            id="eventList"
+            class="event-list"
+            role="tablist"
+            aria-label="Gallery events"
+          ></div>
+        </aside>
 
-        <div class="gallery-item">
-          <img
-            src="./assests/img/gallery/image2.jpg"
-            alt="Capacity Building Workshop"
-          />
-          <div class="gallery-item-content">
-            <h3>Capacity Building Workshop</h3>
-            <p>
-              Training session for district-level officials on climate
-              monitoring dashboard usage and data collection procedures.
+        <section class="event-display" aria-live="polite">
+          <div class="event-copy">
+            <p class="eyebrow">Featured Event</p>
+            <h3 id="eventTitle">Loading event...</h3>
+            <p id="eventDescription">
+              Select an event on the left to see highlights and photography.
             </p>
           </div>
-        </div>
-
-        <div class="gallery-item">
-          <img
-            src="./assests/img/gallery/image3.jpg"
-            alt="Climate Action Conference"
-          />
-          <div class="gallery-item-content">
-            <h3>Climate Action Conference</h3>
-            <p>
-              Multi-stakeholder conference bringing together departments, NGOs,
-              and community representatives to align on climate goals.
-            </p>
-          </div>
-        </div>
-
-        <div class="gallery-item">
-          <img
-            src="./assests/img/gallery/image4.jpg"
-            alt="Technical Training Session"
-          />
-          <div class="gallery-item-content">
-            <h3>Technical Training Session</h3>
-            <p>
-              Hands-on training for government officials on real-time monitoring
-              systems and reporting mechanisms.
-            </p>
-          </div>
-        </div>
-
-        <div class="gallery-item">
-          <img
-            src="./assests/img/gallery/image5.jpg"
-            alt="Partnership Agreement Signing"
-          />
-          <div class="gallery-item-content">
-            <h3>Partnership Agreement Signing</h3>
-            <p>
-              Formal collaboration agreement ceremony between EMPRI, CEE, and
-              Hanns Seidel Foundation for enhanced climate action.
-            </p>
-          </div>
-        </div>
-
-        <div class="gallery-item">
-          <img
-            src="./assests/img/gallery/image6.jpg"
-            alt="Field Visit & Assessment"
-          />
-          <div class="gallery-item-content">
-            <h3>Field Visit & Assessment</h3>
-            <p>
-              On-ground assessment of climate adaptation projects and their
-              impact on local communities and ecosystems.
-            </p>
-          </div>
-        </div>
-
-        <div class="gallery-item">
-          <img
-            src="./assests/img/gallery/image7.jpeg"
-            alt="Dashboard Demonstration"
-          />
-          <div class="gallery-item-content">
-            <h3>Dashboard Demonstration</h3>
-            <p>
-              Live demonstration of the KSAPCC monitoring dashboard showcasing
-              real-time data visualization and reporting features.
-            </p>
-          </div>
-        </div>
+          <div
+            id="photoGrid"
+            class="photo-grid"
+            aria-label="Event photos"
+          ></div>
+        </section>
       </div>
     </div>
 
@@ -354,6 +365,154 @@
         </div>
       </div>
     </footer>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const eventsData = [
+          {
+            name: "KSAPCC Stakeholder Meet & Dashboard Prototype Launch",
+            description:
+              "A strategic planning session with government officials and environmental experts to discuss climate action implementation across Karnataka, featuring the prototype launch of the KSAPCC Monitoring Dashboard.",
+            photos: [
+              "../Gallery Images/KSAPCC Stakeholder Meet & Dashboard Prototype Launch/Cover Image.JPG",
+              "../Gallery Images/KSAPCC Stakeholder Meet & Dashboard Prototype Launch/CHA 1412.JPG",
+              "../Gallery Images/KSAPCC Stakeholder Meet & Dashboard Prototype Launch/CHA 1588.JPG",
+              "../Gallery Images/KSAPCC Stakeholder Meet & Dashboard Prototype Launch/CHA 1598.JPG",
+              "../Gallery Images/KSAPCC Stakeholder Meet & Dashboard Prototype Launch/CHA 1727.JPG",
+            ],
+          },
+          {
+            name: "Climate Action Workshop",
+            description:
+              "Multi-stakeholder conference bringing together departments, NGOs and community representatives to align on climate goals.",
+            photos: [
+              "../Gallery Images/Climate Action Workshop/Cover Image.jpg",
+              "../Gallery Images/Climate Action Workshop/CHA 1896.JPG",
+              "../Gallery Images/Climate Action Workshop/CHA 1905.JPG",
+              "../Gallery Images/Climate Action Workshop/CHA 1950.JPG",
+              "../Gallery Images/Climate Action Workshop/CHA 1981.JPG",
+            ],
+          },
+          {
+            name: "Capacity Building Workshop",
+            description:
+              "Training session for district level officials on climate monitoring dashboard usage and data collection procedures.",
+            photos: [
+              "../Gallery Images/Capacity Building Workshop/Cover Image.jpg",
+              "../Gallery Images/Capacity Building Workshop/1.jpg",
+              "../Gallery Images/Capacity Building Workshop/2.jpg",
+              "../Gallery Images/Capacity Building Workshop/3.jpg",
+              "../Gallery Images/Capacity Building Workshop/4.jpg",
+              "../Gallery Images/Capacity Building Workshop/5.jpg",
+              "../Gallery Images/Capacity Building Workshop/6.jpg",
+              "../Gallery Images/Capacity Building Workshop/8.jpg",
+            ],
+          },
+          {
+            name: "Technical Training Sessions",
+            description:
+              "Hands-on training for government officials on real-time monitoring systems and reporting mechanisms.",
+            photos: [
+              "../Gallery Images/Technical Training Sessions/Cover Image.JPG",
+              "../Gallery Images/Technical Training Sessions/IMG_2667.JPG",
+              "../Gallery Images/Technical Training Sessions/IMG_2732.JPG",
+              "../Gallery Images/Technical Training Sessions/IMG_2863.JPG",
+            ],
+          },
+          {
+            name: "Partnership Agreement Signing",
+            description:
+              "Formal collaborating agreement ceremony between EMPRI, CEE, and Hanns Seidel Foundation for enhanced climate action.",
+            photos: [
+              "../Gallery Images/Partnership Agreement Signing/Cover Image.JPG",
+              "../Gallery Images/Partnership Agreement Signing/CHA 1841.JPG",
+              "../Gallery Images/Partnership Agreement Signing/IMG_2482.JPG",
+              "../Gallery Images/Partnership Agreement Signing/IMG_2484.JPG",
+              "../Gallery Images/Partnership Agreement Signing/IMG_2604.JPG",
+            ],
+          },
+          {
+            name: "Dashboard Demonstration",
+            description:
+              "Live demonstration of the KSAPCC monitoring dashboard showcasing real-time data visualization and reporting features.",
+            photos: [
+              "../Gallery Images/Dashboard Demonstration/Cover Image.jpeg",
+              "../Gallery Images/Dashboard Demonstration/IMG 1.jpeg",
+            ],
+          },
+          {
+            name: "KSAPCC Dashboard Training",
+            description:
+              "Two-day workshop on the KSAPCC Monitoring Dashboard for Karnataka State Departments.",
+            photos: [
+              "../Gallery Images/KSAPCC Dashboard Training/IMG_4397.JPG",
+              "../Gallery Images/KSAPCC Dashboard Training/IMG_4456.JPG",
+              "../Gallery Images/KSAPCC Dashboard Training/IMG_4497.JPG",
+              "../Gallery Images/KSAPCC Dashboard Training/IMG_4535.JPG",
+              "../Gallery Images/KSAPCC Dashboard Training/IMG_4555.JPG",
+              "../Gallery Images/KSAPCC Dashboard Training/IMG_4556.JPG",
+              "../Gallery Images/KSAPCC Dashboard Training/IMG_4652.JPG",
+              "../Gallery Images/KSAPCC Dashboard Training/IMG_4693.JPG",
+              "../Gallery Images/KSAPCC Dashboard Training/IMG_4710.JPG",
+              "../Gallery Images/KSAPCC Dashboard Training/IMG_4752.JPG",
+              "../Gallery Images/KSAPCC Dashboard Training/IMG_4764.JPG",
+              "../Gallery Images/KSAPCC Dashboard Training/IMG_4793.JPG",
+            ],
+          },
+        ];
+
+        const eventList = document.getElementById("eventList");
+        const eventTitle = document.getElementById("eventTitle");
+        const eventDescription = document.getElementById("eventDescription");
+        const photoGrid = document.getElementById("photoGrid");
+
+        if (!eventList || !eventTitle || !eventDescription || !photoGrid) {
+          return;
+        }
+
+        const renderPhotos = (event) => {
+          photoGrid.innerHTML = "";
+          event.photos.forEach((path) => {
+            const card = document.createElement("div");
+            card.className = "photo-card";
+            const img = document.createElement("img");
+            img.loading = "lazy";
+            img.alt = `${event.name} photograph`;
+            img.src = encodeURI(path);
+            card.appendChild(img);
+            photoGrid.appendChild(card);
+          });
+        };
+
+        const setActiveEvent = (index) => {
+          const tabs = eventList.querySelectorAll(".event-tab");
+          tabs.forEach((tab, tabIndex) => {
+            const isActive = tabIndex === index;
+            tab.classList.toggle("active", isActive);
+            tab.setAttribute("aria-selected", String(isActive));
+          });
+          const activeEvent = eventsData[index];
+          if (!activeEvent) return;
+          eventTitle.textContent = activeEvent.name;
+          eventDescription.textContent = activeEvent.description;
+          renderPhotos(activeEvent);
+        };
+
+        eventsData.forEach((event, index) => {
+          const tab = document.createElement("button");
+          tab.type = "button";
+          tab.className = "event-tab";
+          tab.textContent = event.name;
+          tab.setAttribute("role", "tab");
+          tab.setAttribute("aria-selected", "false");
+          tab.addEventListener("click", () => setActiveEvent(index));
+          eventList.appendChild(tab);
+        });
+
+        if (eventsData.length > 0) {
+          setActiveEvent(0);
+        }
+      });
+    </script>
     <script src="./assests/JS/siteNav.js"></script>
   </body>
 </html>
