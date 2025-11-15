@@ -937,6 +937,9 @@ function collectModalChanges() {
   const context = activeKpiContext;
   const formData = new FormData();
   formData.append("id", context.row.kpi_id);
+  if (context.row.sub_kpi_id) {
+    formData.append("sub_kpi_id", context.row.sub_kpi_id);
+  }
   formData.append("token", tok);
 
   const strategiesInput = document.getElementById("modalStrategies");
@@ -1177,6 +1180,9 @@ async function handleConfirmUpdate() {
       fd.append("token", tok);
       fd.append("year", selectedYearKey);
       fd.append("value", selectedValue);
+      if (activeKpiContext.row.sub_kpi_id) {
+        fd.append("sub_kpi_id", activeKpiContext.row.sub_kpi_id);
+      }
       // Attach remarks for this year if present
       const noteInput = document.getElementById(`modalNote-${selectedYearKey}`);
       if (noteInput) {

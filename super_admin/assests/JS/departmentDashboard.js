@@ -780,6 +780,9 @@ document.addEventListener("DOMContentLoaded", function () {
       "coordinating_departments",
       updatedData.coordinating_departments
     );
+    if (rowId?.sub_kpi_id) {
+      formData.append("sub_kpi_id", rowId.sub_kpi_id);
+    }
 
     // Append remarks fields to form data
     formData.append("y1remarks", y1remarks);
@@ -1057,6 +1060,7 @@ function initSubKpiMode() {
           masterForm.append("t4", document.getElementById("target4").value);
           masterForm.append("t5", document.getElementById("target5").value);
           masterForm.append("token", tok);
+          masterForm.append("is_master_only", "1");
           const mResp = await fetch(
             "https://ksapccmonitoring.in/kpi_app/add_department_kpi",
             { method: "POST", body: masterForm }
@@ -1408,6 +1412,9 @@ async function saveChangesHandler(kpiId, originalData) {
   formData.append("strategies", strategies);
   formData.append("coordinating_departments", coordinating_departments);
   formData.append("token", localStorage.getItem("authToken"));
+  if (originalData?.sub_kpi_id) {
+    formData.append("sub_kpi_id", originalData.sub_kpi_id);
+  }
 
   // Append remarks
   formData.append("y1remarks", y1remarks);
