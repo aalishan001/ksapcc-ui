@@ -1,518 +1,509 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Gallery - KSAPCC | Govt. of Karnataka</title>
-    <link rel="icon" href="./assests/img/green_logo.svg" type="image/png" />
-    <link rel="stylesheet" href="./assests/style/landingPage.css" />
-    <link
-      href="https://fonts.googleapis.com/css?family=Public Sans"
-      rel="stylesheet"
-    />
-    <style>
-      .gallery-section {
-        margin-top: 40px;
-        padding: 40px 24px 16px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        background-color: #ffffff;
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gallery - KSAPCC | Govt. of Karnataka</title>
+  <link rel="icon" href="./assests/img/green_logo.svg" type="image/png" />
+  <link rel="stylesheet" href="./assests/style/landingPage.css" />
+  <link href="https://fonts.googleapis.com/css?family=Public Sans" rel="stylesheet" />
+  <style>
+    .gallery-section {
+      margin-top: 40px;
+      padding: 40px 24px 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-color: #ffffff;
+    }
+
+    .gallery-header {
+      text-align: center;
+      margin-bottom: 48px;
+      max-width: 720px;
+    }
+
+    .gallery-header h1 {
+      font-family: "Public Sans", sans-serif;
+      font-weight: 900;
+      font-size: 44px;
+      letter-spacing: -0.035em;
+      text-transform: uppercase;
+      line-height: 1.1;
+      color: #0f3a26;
+      margin-bottom: 14px;
+    }
+
+    .gallery-header h1 span {
+      display: block;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      font-size: 14px;
+      text-transform: uppercase;
+      color: rgba(15, 58, 38, 0.76);
+      margin-bottom: 6px;
+    }
+
+    .gallery-header p {
+      font-family: "Public Sans", sans-serif;
+      font-weight: 400;
+      font-size: 18px;
+      color: #1f2c26;
+      line-height: 1.75;
+      letter-spacing: 0.01em;
+    }
+
+    .gallery-layout {
+      width: 100%;
+      max-width: 1200px;
+      display: flex;
+      gap: 32px;
+      align-items: stretch;
+    }
+
+    .event-panel {
+      flex: 0 0 280px;
+      background: #f7fff9;
+      border: 1px solid #dcffe8;
+      border-radius: 28px;
+      padding: 28px;
+      box-shadow: 0 30px 60px rgba(22, 93, 60, 0.08);
+      position: sticky;
+      top: 120px;
+      align-self: flex-start;
+    }
+
+    .event-panel h2 {
+      font-family: "Public Sans", sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: #1e3b2f;
+      margin-bottom: 8px;
+    }
+
+    .event-panel p {
+      font-family: "Public Sans", sans-serif;
+      font-size: 14px;
+      color: #5b6f65;
+      margin-bottom: 24px;
+      line-height: 1.5;
+    }
+
+    .event-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .event-tab {
+      width: 100%;
+      border: 1px solid #d7f1e1;
+      background: #ffffff;
+      color: #223c30;
+      font-family: "Public Sans", sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      text-align: left;
+      padding: 14px 16px;
+      border-radius: 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .event-tab:hover {
+      border-color: #5fa777;
+      color: #5fa777;
+    }
+
+    .event-tab.active {
+      background: linear-gradient(135deg, #5fa777, #88c792);
+      color: #ffffff;
+      border-color: transparent;
+      box-shadow: 0 18px 40px rgba(95, 167, 119, 0.35);
+    }
+
+    .event-display {
+      flex: 1;
+      background: #fbfffc;
+      border: 1px solid #e6f5eb;
+      border-radius: 32px;
+      padding: 32px;
+      box-shadow: 0 35px 70px rgba(30, 59, 47, 0.12);
+    }
+
+    .event-copy .eyebrow {
+      font-size: 13px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #7aa98e;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+
+    .event-copy h3 {
+      font-family: "Public Sans", sans-serif;
+      font-size: 32px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: -0.02em;
+      color: #0c2f1e;
+      margin-bottom: 10px;
+    }
+
+    .event-copy p {
+      font-family: "Public Sans", sans-serif;
+      font-size: 17px;
+      font-weight: 400;
+      color: #1f3125;
+      line-height: 1.7;
+      letter-spacing: 0.01em;
+    }
+
+    .photo-grid {
+      margin-top: 28px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+    }
+
+    .photo-card {
+      background: #ffffff;
+      border-radius: 18px;
+      overflow: hidden;
+      border: 1px solid #eef4ef;
+      box-shadow: 0 16px 40px rgba(18, 53, 37, 0.12);
+      transform: translateY(16px);
+      opacity: 0;
+      animation: fadeUp 0.6s ease forwards;
+    }
+
+    .photo-card img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+
+    .photo-card:hover img {
+      transform: scale(1.04);
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(24px);
       }
 
-      .gallery-header {
-        text-align: center;
-        margin-bottom: 48px;
-        max-width: 720px;
+      to {
+        opacity: 1;
+        transform: translateY(0);
       }
+    }
 
-      .gallery-header h1 {
-        font-family: "Public Sans", sans-serif;
-        font-weight: 900;
-        font-size: 44px;
-        letter-spacing: -0.035em;
-        text-transform: uppercase;
-        line-height: 1.1;
-        color: #0f3a26;
-        margin-bottom: 14px;
-      }
-
-      .gallery-header h1 span {
-        display: block;
-        font-weight: 500;
-        letter-spacing: 0.18em;
-        font-size: 14px;
-        text-transform: uppercase;
-        color: rgba(15, 58, 38, 0.76);
-        margin-bottom: 6px;
-      }
-
-      .gallery-header p {
-        font-family: "Public Sans", sans-serif;
-        font-weight: 400;
-        font-size: 18px;
-        color: #1f2c26;
-        line-height: 1.75;
-        letter-spacing: 0.01em;
-      }
-
+    @media (max-width: 1100px) {
       .gallery-layout {
-        width: 100%;
-        max-width: 1200px;
-        display: flex;
-        gap: 32px;
-        align-items: stretch;
+        flex-direction: column;
       }
 
       .event-panel {
-        flex: 0 0 280px;
-        background: #f7fff9;
-        border: 1px solid #dcffe8;
-        border-radius: 28px;
-        padding: 28px;
-        box-shadow: 0 30px 60px rgba(22, 93, 60, 0.08);
-        position: sticky;
-        top: 120px;
-        align-self: flex-start;
-      }
-
-      .event-panel h2 {
-        font-family: "Public Sans", sans-serif;
-        font-size: 20px;
-        font-weight: 700;
-        color: #1e3b2f;
-        margin-bottom: 8px;
-      }
-
-      .event-panel p {
-        font-family: "Public Sans", sans-serif;
-        font-size: 14px;
-        color: #5b6f65;
-        margin-bottom: 24px;
-        line-height: 1.5;
-      }
-
-      .event-list {
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-      }
-
-      .event-tab {
+        position: static;
         width: 100%;
-        border: 1px solid #d7f1e1;
-        background: #ffffff;
-        color: #223c30;
-        font-family: "Public Sans", sans-serif;
-        font-size: 15px;
-        font-weight: 600;
-        text-align: left;
-        padding: 14px 16px;
-        border-radius: 16px;
-        cursor: pointer;
-        transition: all 0.3s ease;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .gallery-section {
+        margin-top: 56px;
+        padding: 32px 16px 40px;
       }
 
-      .event-tab:hover {
-        border-color: #5fa777;
-        color: #5fa777;
-      }
-
-      .event-tab.active {
-        background: linear-gradient(135deg, #5fa777, #88c792);
-        color: #ffffff;
-        border-color: transparent;
-        box-shadow: 0 18px 40px rgba(95, 167, 119, 0.35);
+      .gallery-header h1 {
+        font-size: 32px;
       }
 
       .event-display {
-        flex: 1;
-        background: #fbfffc;
-        border: 1px solid #e6f5eb;
-        border-radius: 32px;
-        padding: 32px;
-        box-shadow: 0 35px 70px rgba(30, 59, 47, 0.12);
-      }
-
-      .event-copy .eyebrow {
-        font-size: 13px;
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
-        color: #7aa98e;
-        margin-bottom: 8px;
-        font-weight: 600;
+        padding: 24px;
       }
 
       .event-copy h3 {
-        font-family: "Public Sans", sans-serif;
-        font-size: 32px;
-        font-weight: 800;
-        text-transform: uppercase;
-        letter-spacing: -0.02em;
-        color: #0c2f1e;
-        margin-bottom: 10px;
+        font-size: 26px;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .gallery-section {
+        margin-top: 48px;
+        padding: 28px 14px 36px;
       }
 
-      .event-copy p {
-        font-family: "Public Sans", sans-serif;
-        font-size: 17px;
-        font-weight: 400;
-        color: #1f3125;
-        line-height: 1.7;
-        letter-spacing: 0.01em;
-      }
-
-      .photo-grid {
-        margin-top: 28px;
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-        gap: 20px;
-      }
-
-      .photo-card {
-        background: #ffffff;
-        border-radius: 18px;
-        overflow: hidden;
-        border: 1px solid #eef4ef;
-        box-shadow: 0 16px 40px rgba(18, 53, 37, 0.12);
-        transform: translateY(16px);
-        opacity: 0;
-        animation: fadeUp 0.6s ease forwards;
+      .event-copy h3 {
+        font-size: 22px;
       }
 
       .photo-card img {
-        width: 100%;
-        height: 220px;
-        object-fit: cover;
-        display: block;
-        transition: transform 0.4s ease;
+        height: 190px;
       }
+    }
+  </style>
+</head>
 
-      .photo-card:hover img {
-        transform: scale(1.04);
-      }
-
-      @keyframes fadeUp {
-        from {
-          opacity: 0;
-          transform: translateY(24px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-
-      @media (max-width: 1100px) {
-        .gallery-layout {
-          flex-direction: column;
-        }
-        .event-panel {
-          position: static;
-          width: 100%;
-        }
-      }
-
-      @media (max-width: 768px) {
-        .gallery-section {
-          margin-top: 56px;
-          padding: 32px 16px 40px;
-        }
-        .gallery-header h1 {
-          font-size: 32px;
-        }
-        .event-display {
-          padding: 24px;
-        }
-        .event-copy h3 {
-          font-size: 26px;
-        }
-      }
-
-      @media (max-width: 576px) {
-        .gallery-section {
-          margin-top: 48px;
-          padding: 28px 14px 36px;
-        }
-        .event-copy h3 {
-          font-size: 22px;
-        }
-        .photo-card img {
-          height: 190px;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <nav>
-      <div class="brandWrap">
-        <a class="logo" href="./landingPage.html">
-          <img src="./assests/img/logo1.svg" alt="KSAPCC logo" />
-        </a>
-      </div>
-      <button
-        class="navToggle"
-        type="button"
-        aria-label="Toggle navigation"
-        aria-controls="primaryNav"
-        aria-expanded="false"
-      >
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
-      <div class="navContains" id="primaryNav">
-        <a href="./landingPage.html"><button>Home</button></a>
-        <a href="./landingPage.html#bg"><button>Background</button></a>
-        <a href="./how-it-works.html"><button>How it works</button></a>
-        <a href="./partners.html"><button>Partners</button></a>
-        <a href="./gallery.html"><button>Gallery</button></a>
-        <div class="dropdown">
-          <button class="dropbtn" type="button" aria-expanded="false">
-            Resources
-          </button>
-          <div class="dropdown-content">
-            <a href="./assests/Draft Report.pdf" target="_blank">KSAPCC V2</a>
-            <a href="./assests/First Assessment.pdf" target="_blank"
-              >KSAPCC V1</a
-            >
-            <a href="./assests/Final Training Module.pdf" target="_blank"
-              >Training Module – KSAPCC Monitoring</a
-            >
-            <a href="./assests/Concept Note.pdf" target="_blank"
-              >Concept Note- KSAPCC Monitoring</a
-            >
-          </div>
+<body>
+  <nav>
+    <div class="brandWrap">
+      <a class="logo" href="./landingPage.html">
+        <img src="./assests/img/logo1.svg" alt="KSAPCC logo" />
+      </a>
+    </div>
+    <button class="navToggle" type="button" aria-label="Toggle navigation" aria-controls="primaryNav"
+      aria-expanded="false">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <div class="navContains" id="primaryNav">
+      <a href="./landingPage.html"><button>Home</button></a>
+      <a href="./landingPage.html#bg"><button>Background</button></a>
+      <a href="./how-it-works.html"><button>How it works</button></a>
+      <a href="./partners.html"><button>Partners</button></a>
+      <a href="./gallery.html"><button>Gallery</button></a>
+      <div class="dropdown">
+        <button class="dropbtn" type="button" aria-expanded="false">
+          Resources
+        </button>
+        <div class="dropdown-content">
+          <a href="./assests/Draft Report.pdf" target="_blank">KSAPCC V2</a>
+          <a href="./assests/First Assessment.pdf" target="_blank">KSAPCC V1</a>
+          <a href="./assests/Final Training Module.pdf" target="_blank">Training Module – KSAPCC Monitoring</a>
+          <a href="./assests/Concept Note.pdf" target="_blank">Concept Note- KSAPCC Monitoring</a>
         </div>
-
-        <a href="./login.html">
-          <button id="departmentLogin">Department Login</button>
-        </a>
-      </div>
-      <div class="logo logoSecondary">
-        <img src="./assests/img/EMRRI.svg" alt="EMPRI logo" />
-      </div>
-    </nav>
-
-    <div class="gallery-section">
-      <div class="gallery-header">
-        <h1><span>Capturing Moments of</span> Climate Action</h1>
-        <p>
-          Explore the signature convenings that keep Karnataka's climate agenda
-          moving. Browse every stakeholder meet, workshop, and training session
-          to relive the collaboration, learning, and partnerships powering
-          KSAPCC delivery.
-        </p>
       </div>
 
-      <div class="gallery-layout">
-        <aside class="event-panel">
-          <h2>Event Library</h2>
-          <p>
-            Flip through milestone engagements and trainings from across the
-            state.
-          </p>
-          <div
-            id="eventList"
-            class="event-list"
-            role="tablist"
-            aria-label="Gallery events"
-          ></div>
-        </aside>
+      <a href="./login.html">
+        <button id="departmentLogin">Department Login</button>
+      </a>
+    </div>
+    <div class="logo logoSecondary">
+      <img src="./assests/img/EMRRI.svg" alt="EMPRI logo" />
+    </div>
+  </nav>
 
-        <section class="event-display" aria-live="polite">
-          <div class="event-copy">
-            <p class="eyebrow">Featured Event</p>
-            <h3 id="eventTitle">Loading event...</h3>
-            <p id="eventDescription">
-              Select an event on the left to see highlights and photography.
-            </p>
-          </div>
-          <div
-            id="photoGrid"
-            class="photo-grid"
-            aria-label="Event photos"
-          ></div>
-        </section>
-      </div>
+  <div class="gallery-section">
+    <div class="gallery-header">
+      <h1><span>Capturing Moments of</span> Climate Action</h1>
+      <p>
+        Explore the signature convenings that keep Karnataka's climate agenda
+        moving. Browse every stakeholder meet, workshop, and training session
+        to relive the collaboration, learning, and partnerships powering
+        KSAPCC delivery.
+      </p>
     </div>
 
-    <footer class="footer">
-      <h1>
-        <span style="color: black">EMPOWERING TRANSPARENCY,</span> DRIVING
-        CHANGE – TOGETHER FOR A
-        <span style="color: #96fc04">GREENER</span> TOMMORROW
-      </h1>
-      <div class="footerMid">
-        <img src="./assests/img/EMRRI.svg" alt="" />
-        <div class="footerMidText">
-          <p>
-            dgempri@karnataka.gov.in<br />
-            dr_empri@karnataka.gov.in<br />
-            dcc-empri@karnataka.gov.in
+    <div class="gallery-layout">
+      <aside class="event-panel">
+        <h2>Event Library</h2>
+        <p>
+          Flip through milestone engagements and trainings from across the
+          state.
+        </p>
+        <div id="eventList" class="event-list" role="tablist" aria-label="Gallery events"></div>
+      </aside>
+
+      <section class="event-display" aria-live="polite">
+        <div class="event-copy">
+          <p class="eyebrow">Featured Event</p>
+          <h3 id="eventTitle">Loading event...</h3>
+          <p id="eventDescription">
+            Select an event on the left to see highlights and photography.
           </p>
         </div>
-        <div class="footerBot">
-          <p>All rights reserved. Copyrights © 2024 Ltd.</p>
-          <div>
-            <p>PRIVACY POLICY</p>
-            <p>TERMS & CONDITIONS</p>
-          </div>
-          <div>
-            <img src="./assests/img/twitter.svg" alt="" />
-            <img src="./assests/img/fb.svg" alt="" />
-          </div>
+        <div id="photoGrid" class="photo-grid" aria-label="Event photos"></div>
+      </section>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <h1>
+      <span style="color: black">EMPOWERING TRANSPARENCY,</span> DRIVING
+      CHANGE – TOGETHER FOR A
+      <span style="color: #96fc04">GREENER</span> TOMMORROW
+    </h1>
+    <div class="footerMid">
+      <img src="./assests/img/EMRRI.svg" alt="" />
+      <div class="footerMidText">
+        <p>
+          dgempri@karnataka.gov.in<br />
+          dr_empri@karnataka.gov.in<br />
+          dcc-empri@karnataka.gov.in
+        </p>
+      </div>
+      <div class="footerBot">
+        <p>All rights reserved. Copyrights © 2024 Ltd.</p>
+        <div>
+          <p>PRIVACY POLICY</p>
+          <p>TERMS & CONDITIONS</p>
+        </div>
+        <div>
+          <img src="./assests/img/twitter.svg" alt="" />
+          <img src="./assests/img/fb.svg" alt="" />
         </div>
       </div>
-    </footer>
-    <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        const eventsData = [
-          {
-            name: "KSAPCC Stakeholder Meet & Dashboard Prototype Launch",
-            description:
-              "A strategic planning session with government officials and environmental experts to discuss climate action implementation across Karnataka, featuring the prototype launch of the KSAPCC Monitoring Dashboard.",
-            photos: [
-              "../Gallery Images/KSAPCC Stakeholder Meet & Dashboard Prototype Launch/Cover Image.JPG",
-              "../Gallery Images/KSAPCC Stakeholder Meet & Dashboard Prototype Launch/CHA 1412.JPG",
-              "../Gallery Images/KSAPCC Stakeholder Meet & Dashboard Prototype Launch/CHA 1588.JPG",
-              "../Gallery Images/KSAPCC Stakeholder Meet & Dashboard Prototype Launch/CHA 1598.JPG",
-              "../Gallery Images/KSAPCC Stakeholder Meet & Dashboard Prototype Launch/CHA 1727.JPG",
-            ],
-          },
-          {
-            name: "Climate Action Workshop",
-            description:
-              "Multi-stakeholder conference bringing together departments, NGOs and community representatives to align on climate goals.",
-            photos: [
-              "../Gallery Images/Climate Action Workshop/Cover Image.jpg",
-              "../Gallery Images/Climate Action Workshop/CHA 1896.JPG",
-              "../Gallery Images/Climate Action Workshop/CHA 1905.JPG",
-              "../Gallery Images/Climate Action Workshop/CHA 1950.JPG",
-              "../Gallery Images/Climate Action Workshop/CHA 1981.JPG",
-            ],
-          },
-          {
-            name: "Capacity Building Workshop",
-            description:
-              "Training session for district level officials on climate monitoring dashboard usage and data collection procedures.",
-            photos: [
-              "../Gallery Images/Capacity Building Workshop/Cover Image.jpg",
-              "../Gallery Images/Capacity Building Workshop/1.jpg",
-              "../Gallery Images/Capacity Building Workshop/2.jpg",
-              "../Gallery Images/Capacity Building Workshop/3.jpg",
-              "../Gallery Images/Capacity Building Workshop/4.jpg",
-              "../Gallery Images/Capacity Building Workshop/5.jpg",
-              "../Gallery Images/Capacity Building Workshop/6.jpg",
-              "../Gallery Images/Capacity Building Workshop/8.jpg",
-            ],
-          },
-          {
-            name: "Technical Training Sessions",
-            description:
-              "Hands-on training for government officials on real-time monitoring systems and reporting mechanisms.",
-            photos: [
-              "../Gallery Images/Technical Training Sessions/Cover Image.JPG",
-              "../Gallery Images/Technical Training Sessions/IMG_2667.JPG",
-              "../Gallery Images/Technical Training Sessions/IMG_2732.JPG",
-              "../Gallery Images/Technical Training Sessions/IMG_2863.JPG",
-            ],
-          },
-          {
-            name: "Partnership Agreement Signing",
-            description:
-              "Formal collaborating agreement ceremony between EMPRI, CEE, and Hanns Seidel Foundation for enhanced climate action.",
-            photos: [
-              "../Gallery Images/Partnership Agreement Signing/Cover Image.JPG",
-              "../Gallery Images/Partnership Agreement Signing/CHA 1841.JPG",
-              "../Gallery Images/Partnership Agreement Signing/IMG_2482.JPG",
-              "../Gallery Images/Partnership Agreement Signing/IMG_2484.JPG",
-              "../Gallery Images/Partnership Agreement Signing/IMG_2604.JPG",
-            ],
-          },
-          {
-            name: "Dashboard Demonstration",
-            description:
-              "Live demonstration of the KSAPCC monitoring dashboard showcasing real-time data visualization and reporting features.",
-            photos: [
-              "../Gallery Images/Dashboard Demonstration/Cover Image.jpeg",
-              "../Gallery Images/Dashboard Demonstration/IMG 1.jpeg",
-            ],
-          },
-          {
-            name: "KSAPCC Dashboard Training",
-            description:
-              "Two-day workshop on the KSAPCC Monitoring Dashboard for Karnataka State Departments.",
-            photos: [
-              "../Gallery Images/KSAPCC Dashboard Training/IMG_4397.JPG",
-              "../Gallery Images/KSAPCC Dashboard Training/IMG_4456.JPG",
-              "../Gallery Images/KSAPCC Dashboard Training/IMG_4497.JPG",
-              "../Gallery Images/KSAPCC Dashboard Training/IMG_4535.JPG",
-              "../Gallery Images/KSAPCC Dashboard Training/IMG_4555.JPG",
-              "../Gallery Images/KSAPCC Dashboard Training/IMG_4556.JPG",
-              "../Gallery Images/KSAPCC Dashboard Training/IMG_4652.JPG",
-              "../Gallery Images/KSAPCC Dashboard Training/IMG_4693.JPG",
-              "../Gallery Images/KSAPCC Dashboard Training/IMG_4710.JPG",
-              "../Gallery Images/KSAPCC Dashboard Training/IMG_4752.JPG",
-              "../Gallery Images/KSAPCC Dashboard Training/IMG_4764.JPG",
-              "../Gallery Images/KSAPCC Dashboard Training/IMG_4793.JPG",
-            ],
-          },
-        ];
+    </div>
+  </footer>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const eventsData = [
+        {
+          name: "KSAPCC Stakeholder Meet & Dashboard Prototype Launch",
+          date: "21 November",
+          venue: "The Capitol Hotel, Bengaluru",
+          description:
+            "A strategic planning session with government officials and environmental experts to discuss climate action implementation across Karnataka, featuring the prototype launch of the KSAPCC Monitoring Dashboard.",
+          photos: [
+            "../Gallery Images/KSAPCC Stakeholder Meet & Dashboard Prototype Launch/Cover Image.webp",
+            "../Gallery Images/KSAPCC Stakeholder Meet & Dashboard Prototype Launch/CHA 1412.webp",
+            "../Gallery Images/KSAPCC Stakeholder Meet & Dashboard Prototype Launch/CHA 1588.webp",
+            "../Gallery Images/KSAPCC Stakeholder Meet & Dashboard Prototype Launch/CHA 1598.webp",
+            "../Gallery Images/KSAPCC Stakeholder Meet & Dashboard Prototype Launch/CHA 1727.webp",
+          ],
+        },
+        {
+          name: "Climate Action Workshop",
+          date: "22 November",
+          venue: "The Capitol Hotel, Bengaluru",
+          description:
+            "Multi-stakeholder conference bringing together departments, NGOs and community representatives to align on climate goals.",
+          photos: [
+            "../Gallery Images/Climate Action Workshop/Cover Image.webp",
+            "../Gallery Images/Climate Action Workshop/CHA 1896.webp",
+            "../Gallery Images/Climate Action Workshop/CHA 1905.webp",
+            "../Gallery Images/Climate Action Workshop/CHA 1950.webp",
+            "../Gallery Images/Climate Action Workshop/CHA 1981.webp",
+          ],
+        },
+        {
+          name: "Training session for district level officials on Mainstreaming KSAPCC V.2 and implementation of the departmental KPIs",
+          date: "Dec 2024 to June 2025",
+          venue: "Zilla Panchayat Office & Regional Science Centres",
+          description:
+            "Training session for district level officials on climate monitoring dashboard usage and data collection procedures.",
+          photos: [
+            "../Gallery Images/Capacity Building Workshop/Cover Image.webp",
+            "../Gallery Images/Capacity Building Workshop/1.webp",
+            "../Gallery Images/Capacity Building Workshop/2.webp",
+            "../Gallery Images/Capacity Building Workshop/3.webp",
+            "../Gallery Images/Capacity Building Workshop/4.webp",
+            "../Gallery Images/Capacity Building Workshop/5.webp",
+            "../Gallery Images/Capacity Building Workshop/6.webp",
+            "../Gallery Images/Capacity Building Workshop/8.webp",
+          ],
+        },
+        {
+          name: "Technical Training Sessions",
+          date: "24 October 2024",
+          venue: "Ashraya International Hotel, Bengaluru",
+          description:
+            "Hands-on training for government officials on real-time monitoring systems and reporting mechanisms.",
+          photos: [
+            "../Gallery Images/Technical Training Sessions/Cover Image.webp",
+            "../Gallery Images/Technical Training Sessions/IMG_2667.webp",
+            "../Gallery Images/Technical Training Sessions/IMG_2732.webp",
+            "../Gallery Images/Technical Training Sessions/IMG_2863.webp",
+          ],
+        },
+        {
+          name: "Dashboard Demonstration",
+          date: "21 August 2025",
+          venue: "EMPRI Office, Bengaluru",
+          description:
+            "Live demonstration of the KSAPCC monitoring dashboard showcasing real-time data visualization and reporting features.",
+          photos: [
+            "../Gallery Images/Dashboard Demonstration/Cover Image.webp",
+            "../Gallery Images/Dashboard Demonstration/IMG 1.webp",
+          ],
+        },
+        {
+          name: "KSAPCC Dashboard Training",
+          date: "28 & 29 October 2025",
+          venue: "The Ritz – Carlton, Bengaluru",
+          description:
+            "Two-day workshop on the KSAPCC Monitoring Dashboard for Karnataka State Departments.",
+          photos: [
+            "../Gallery Images/KSAPCC Dashboard Training/IMG_4397.webp",
+            "../Gallery Images/KSAPCC Dashboard Training/IMG_4456.webp",
+            "../Gallery Images/KSAPCC Dashboard Training/IMG_4497.webp",
+            "../Gallery Images/KSAPCC Dashboard Training/IMG_4535.webp",
+            "../Gallery Images/KSAPCC Dashboard Training/IMG_4555.webp",
+            "../Gallery Images/KSAPCC Dashboard Training/IMG_4556.webp",
+            "../Gallery Images/KSAPCC Dashboard Training/IMG_4652.webp",
+            "../Gallery Images/KSAPCC Dashboard Training/IMG_4693.webp",
+            "../Gallery Images/KSAPCC Dashboard Training/IMG_4710.webp",
+            "../Gallery Images/KSAPCC Dashboard Training/IMG_4752.webp",
+            "../Gallery Images/KSAPCC Dashboard Training/IMG_4764.webp",
+            "../Gallery Images/KSAPCC Dashboard Training/IMG_4793.webp",
+          ],
+        },
+      ];
 
-        const eventList = document.getElementById("eventList");
-        const eventTitle = document.getElementById("eventTitle");
-        const eventDescription = document.getElementById("eventDescription");
-        const photoGrid = document.getElementById("photoGrid");
+      const eventList = document.getElementById("eventList");
+      const eventTitle = document.getElementById("eventTitle");
+      const eventDescription = document.getElementById("eventDescription");
+      const photoGrid = document.getElementById("photoGrid");
 
-        if (!eventList || !eventTitle || !eventDescription || !photoGrid) {
-          return;
-        }
+      if (!eventList || !eventTitle || !eventDescription || !photoGrid) {
+        return;
+      }
 
-        const renderPhotos = (event) => {
-          photoGrid.innerHTML = "";
-          event.photos.forEach((path) => {
-            const card = document.createElement("div");
-            card.className = "photo-card";
-            const img = document.createElement("img");
-            img.loading = "lazy";
-            img.alt = `${event.name} photograph`;
-            img.src = encodeURI(path);
-            card.appendChild(img);
-            photoGrid.appendChild(card);
-          });
-        };
-
-        const setActiveEvent = (index) => {
-          const tabs = eventList.querySelectorAll(".event-tab");
-          tabs.forEach((tab, tabIndex) => {
-            const isActive = tabIndex === index;
-            tab.classList.toggle("active", isActive);
-            tab.setAttribute("aria-selected", String(isActive));
-          });
-          const activeEvent = eventsData[index];
-          if (!activeEvent) return;
-          eventTitle.textContent = activeEvent.name;
-          eventDescription.textContent = activeEvent.description;
-          renderPhotos(activeEvent);
-        };
-
-        eventsData.forEach((event, index) => {
-          const tab = document.createElement("button");
-          tab.type = "button";
-          tab.className = "event-tab";
-          tab.textContent = event.name;
-          tab.setAttribute("role", "tab");
-          tab.setAttribute("aria-selected", "false");
-          tab.addEventListener("click", () => setActiveEvent(index));
-          eventList.appendChild(tab);
+      const renderPhotos = (event) => {
+        photoGrid.innerHTML = "";
+        event.photos.forEach((path) => {
+          const card = document.createElement("div");
+          card.className = "photo-card";
+          const img = document.createElement("img");
+          img.loading = "lazy";
+          img.alt = `${event.name} photograph`;
+          img.src = encodeURI(path);
+          card.appendChild(img);
+          photoGrid.appendChild(card);
         });
+      };
 
-        if (eventsData.length > 0) {
-          setActiveEvent(0);
-        }
+      const setActiveEvent = (index) => {
+        const tabs = eventList.querySelectorAll(".event-tab");
+        tabs.forEach((tab, tabIndex) => {
+          const isActive = tabIndex === index;
+          tab.classList.toggle("active", isActive);
+          tab.setAttribute("aria-selected", String(isActive));
+        });
+        const activeEvent = eventsData[index];
+        if (!activeEvent) return;
+        eventTitle.textContent = activeEvent.name;
+        // Display date and venue below title
+        const dateVenueHtml = activeEvent.date && activeEvent.venue
+          ? `<span style="display:block;font-size:15px;color:#5b7a68;font-weight:500;margin-top:8px;">${activeEvent.date} | ${activeEvent.venue}</span>`
+          : '';
+        eventDescription.innerHTML = dateVenueHtml + activeEvent.description;
+        renderPhotos(activeEvent);
+      };
+
+      eventsData.forEach((event, index) => {
+        const tab = document.createElement("button");
+        tab.type = "button";
+        tab.className = "event-tab";
+        tab.textContent = event.name;
+        tab.setAttribute("role", "tab");
+        tab.setAttribute("aria-selected", "false");
+        tab.addEventListener("click", () => setActiveEvent(index));
+        eventList.appendChild(tab);
       });
-    </script>
-    <script src="./assests/JS/siteNav.js"></script>
-  </body>
+
+      if (eventsData.length > 0) {
+        setActiveEvent(0);
+      }
+    });
+  </script>
+  <script src="./assests/JS/siteNav.js"></script>
+</body>
+
 </html>
