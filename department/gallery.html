@@ -248,6 +248,154 @@
         height: 190px;
       }
     }
+
+    /* Lightbox Styles */
+    .lightbox {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.95);
+      z-index: 9999;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .lightbox.active {
+      display: flex;
+      opacity: 1;
+    }
+
+    .lightbox-content {
+      position: relative;
+      max-width: 90vw;
+      max-height: 90vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .lightbox-content img {
+      max-width: 100%;
+      max-height: 85vh;
+      object-fit: contain;
+      border-radius: 12px;
+      box-shadow: 0 25px 80px rgba(0, 0, 0, 0.6);
+      animation: zoomIn 0.3s ease;
+    }
+
+    @keyframes zoomIn {
+      from {
+        transform: scale(0.8);
+        opacity: 0;
+      }
+
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: rgba(255, 255, 255, 0.15);
+      border: none;
+      color: #fff;
+      font-size: 32px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10001;
+    }
+
+    .lightbox-close:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: rotate(90deg);
+    }
+
+    .lightbox-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255, 255, 255, 0.15);
+      border: none;
+      color: #fff;
+      font-size: 28px;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10001;
+    }
+
+    .lightbox-nav:hover {
+      background: rgba(95, 167, 119, 0.8);
+      transform: translateY(-50%) scale(1.1);
+    }
+
+    .lightbox-prev {
+      left: 20px;
+    }
+
+    .lightbox-next {
+      right: 20px;
+    }
+
+    .lightbox-counter {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #fff;
+      font-family: "Public Sans", sans-serif;
+      font-size: 14px;
+      background: rgba(0, 0, 0, 0.5);
+      padding: 8px 16px;
+      border-radius: 20px;
+    }
+
+    .photo-card {
+      cursor: pointer;
+    }
+
+    @media (max-width: 768px) {
+      .lightbox-nav {
+        width: 44px;
+        height: 44px;
+        font-size: 22px;
+      }
+
+      .lightbox-prev {
+        left: 10px;
+      }
+
+      .lightbox-next {
+        right: 10px;
+      }
+
+      .lightbox-close {
+        top: 10px;
+        right: 10px;
+        width: 40px;
+        height: 40px;
+        font-size: 24px;
+      }
+    }
   </style>
 </head>
 
@@ -323,6 +471,17 @@
         <div id="photoGrid" class="photo-grid" aria-label="Event photos"></div>
       </section>
     </div>
+  </div>
+
+  <!-- Lightbox Modal -->
+  <div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer">
+    <button class="lightbox-close" aria-label="Close">&times;</button>
+    <button class="lightbox-nav lightbox-prev" aria-label="Previous image">&#10094;</button>
+    <div class="lightbox-content">
+      <img id="lightboxImg" src="" alt="Enlarged gallery image">
+    </div>
+    <button class="lightbox-nav lightbox-next" aria-label="Next image">&#10095;</button>
+    <div class="lightbox-counter"><span id="lightboxCurrent">1</span> / <span id="lightboxTotal">1</span></div>
   </div>
 
   <footer class="footer">
@@ -457,15 +616,72 @@
         return;
       }
 
+      // Lightbox elements
+      const lightbox = document.getElementById('lightbox');
+      const lightboxImg = document.getElementById('lightboxImg');
+      const lightboxCurrent = document.getElementById('lightboxCurrent');
+      const lightboxTotal = document.getElementById('lightboxTotal');
+      const lightboxClose = document.querySelector('.lightbox-close');
+      const lightboxPrev = document.querySelector('.lightbox-prev');
+      const lightboxNext = document.querySelector('.lightbox-next');
+
+      let currentPhotos = [];
+      let currentPhotoIndex = 0;
+
+      // Lightbox functions
+      const openLightbox = (index) => {
+        currentPhotoIndex = index;
+        lightboxImg.src = encodeURI(currentPhotos[index]);
+        lightboxCurrent.textContent = index + 1;
+        lightboxTotal.textContent = currentPhotos.length;
+        lightbox.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      };
+
+      const closeLightbox = () => {
+        lightbox.classList.remove('active');
+        document.body.style.overflow = '';
+      };
+
+      const showPrevPhoto = () => {
+        currentPhotoIndex = (currentPhotoIndex - 1 + currentPhotos.length) % currentPhotos.length;
+        lightboxImg.src = encodeURI(currentPhotos[currentPhotoIndex]);
+        lightboxCurrent.textContent = currentPhotoIndex + 1;
+      };
+
+      const showNextPhoto = () => {
+        currentPhotoIndex = (currentPhotoIndex + 1) % currentPhotos.length;
+        lightboxImg.src = encodeURI(currentPhotos[currentPhotoIndex]);
+        lightboxCurrent.textContent = currentPhotoIndex + 1;
+      };
+
+      // Lightbox event listeners
+      lightboxClose.addEventListener('click', closeLightbox);
+      lightboxPrev.addEventListener('click', showPrevPhoto);
+      lightboxNext.addEventListener('click', showNextPhoto);
+
+      lightbox.addEventListener('click', (e) => {
+        if (e.target === lightbox) closeLightbox();
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (!lightbox.classList.contains('active')) return;
+        if (e.key === 'Escape') closeLightbox();
+        if (e.key === 'ArrowLeft') showPrevPhoto();
+        if (e.key === 'ArrowRight') showNextPhoto();
+      });
+
       const renderPhotos = (event) => {
         photoGrid.innerHTML = "";
-        event.photos.forEach((path) => {
+        currentPhotos = event.photos;
+        event.photos.forEach((path, index) => {
           const card = document.createElement("div");
           card.className = "photo-card";
           const img = document.createElement("img");
           img.loading = "lazy";
           img.alt = `${event.name} photograph`;
           img.src = encodeURI(path);
+          card.addEventListener('click', () => openLightbox(index));
           card.appendChild(img);
           photoGrid.appendChild(card);
         });
