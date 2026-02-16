@@ -312,7 +312,7 @@ async function handleAssignClick(data) {
   initSubKpiMode();
 }
 
-function handleDownloadClick(data) {}
+function handleDownloadClick(data) { }
 
 // Optionally populate sub-KPI multi-select if present (master select removed by design)
 async function loadMasterAndSubKpiSelectors() {
@@ -561,9 +561,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // Assign button event listener (unchanged)
-  const assignSaveButton = document.querySelector(
-    "#assignModal .modal-footer button"
-  );
+  const assignSaveButton = document.querySelector("#assignSaveBtn");
   if (assignSaveButton) {
     assignSaveButton.addEventListener("click", () => {
       const KPIName = document.querySelector("#KPIName").value;
@@ -578,8 +576,8 @@ document.addEventListener("DOMContentLoaded", function () {
       const subSelect = document.getElementById("subKpiSelect");
       const selectedSubIds = subSelect
         ? Array.from(subSelect.selectedOptions)
-            .map((o) => o.value)
-            .filter((v) => v)
+          .map((o) => o.value)
+          .filter((v) => v)
         : [];
       const data = {
         KPIName,
@@ -609,7 +607,7 @@ document.addEventListener("DOMContentLoaded", function () {
         subKpiDrafts = [];
         currentSubIndex = 0;
         subModeEnabled = false;
-      } catch (_) {}
+      } catch (_) { }
       const nameGroup = document.getElementById("subKpiNameGroup");
       const nav = document.getElementById("subKpiNav");
       const saveBtn = document.getElementById("saveSubKpiBtn");
