@@ -146,7 +146,8 @@
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
-  line-height: 20px; /* 142.857% */
+  line-height: 20px;
+  /* 142.857% */
 }
 
 .notificationLIstBox {
@@ -209,8 +210,7 @@
   /* color: red; */
 }
 
-.notificationTime .timeP {
-}
+
 
 .notificationColorYellow .notIcon {
   background: rgba(240, 246, 255, 1);
@@ -218,4 +218,54 @@
 
 .notificationColorRed .notIcon {
   background-color: rgba(231, 247, 239, 1);
+}
+
+@media (max-width: 1100px) {
+  .navBar {
+    padding: 10px 40px;
+  }
+
+  .navigation {
+    padding: 70px 40px 10px 40px;
+  }
+}
+
+@media (max-width: 768px) {
+  .navBar {
+    padding: 10px 20px;
+  }
+
+  .logo h1,
+  .logo h3 {
+    font-size: 18px;
+  }
+
+  .logo img {
+    width: 30px;
+  }
+
+  .navRight {
+    gap: 10px;
+  }
+
+  .navRight p {
+    display: none;
+    /* Hide 'Welcome, admin' on mobile */
+  }
+
+  .navigation {
+    padding: 60px 20px 10px 20px;
+    gap: 15px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    white-space: nowrap;
+  }
+
+  .navigation div {
+    flex-shrink: 0;
+  }
+
+  .navigation div p {
+    font-size: 12px;
+  }
 }

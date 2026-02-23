@@ -137,6 +137,7 @@
   line-height: 1.2;
 }
 
+
 /* Media Queries for better responsiveness */
 @media (max-width: 1400px) {
   .analytics .card {
@@ -156,6 +157,10 @@
   .analytics .card {
     max-width: calc(50% - 12px);
   }
+
+  .recentChart {
+    margin: 24px 40px;
+  }
 }
 
 @media (max-width: 768px) {
@@ -163,24 +168,44 @@
     padding: 20px 20px;
   }
 
+  .body .helloadmin h2 {
+    font-size: 1.2rem;
+  }
+
   .analytics {
-    padding: 20px 20px;
+    padding: 10px 20px 20px 20px;
+    gap: 16px;
   }
 
   .analytics .card {
     max-width: 100%;
     flex: 1 1 100%;
+    padding: 16px;
+    min-height: 100px;
   }
-}
 
-/* CARD END */
+  .analytics .card h1 {
+    font-size: 20px;
+  }
 
-/* recent chart  */
+  .recentChart {
+    margin: 20px 10px;
+  }
 
-.recentChart {
-  background-color: white;
-  margin: 24px 80px;
-  border-radius: 10px;
+  .recnet-heading {
+    padding: 15px 20px;
+  }
+
+  .recnet-heading h2 {
+    font-size: 14px;
+  }
+
+  #paginationControls,
+  #paginationControls1 {
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+  }
 }
 
 .recnet-heading {
