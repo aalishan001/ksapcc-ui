@@ -56,10 +56,10 @@ function renderPerformanceCards(performanceData) {
     const cardHTML = `
   <div class="card" onclick="filterGridByDepartment('${dept.department_name}')">
     <div class="card-text-content">
-      <h10>${dept.department_name.toUpperCase()}</h10>
+      <p>${dept.department_name.toUpperCase()}</p>
     </div>
     <div class="card-percentage-content">
-      <img src="./assests/img/department_logo.svg" alt="department logo" style="width: 24px; height: 24px; margin-bottom: 8px;" />
+      <img src="./assests/img/department_logo.svg" alt="department logo" />
       <h1 style="color: ${color};">${sign}${displayValue}%</h1>
     </div>
   </div>
@@ -283,9 +283,8 @@ function setInputvalues(data) {
   const lastUpdated = document.getElementById("lastUpdated");
   lastUpdated.innerHTML = `
   ${data.kpi_details.last_updated_target}${""}
-  <span style="color: ${color}; margin-left: 15px; ">${icon} ${
-    data.kpi_details.trend
-  }</span>
+  <span style="color: ${color}; margin-left: 15px; ">${icon} ${data.kpi_details.trend
+    }</span>
 `;
   const kpiName = document.getElementById("kpiName");
   kpiName.value = data.kpi_details.kpi_name;
